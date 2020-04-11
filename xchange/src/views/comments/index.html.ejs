@@ -1,0 +1,19 @@
+<h2>Comments</h2>
+<% if(!commentsList.length) { %>
+    <p> No results</p>
+<% }else{ >%
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% commentsList.forEach((comment) => { %>
+                <tr>
+                    <td> <%= comment.description %> </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } >%
