@@ -11,7 +11,7 @@
     <% } %>
     <form action="<%= submitCommentPath %>" method="post">
         <% if (!comment.isNewRecord){ %>
-            <input type="hidden" name="method" value="patch" />
+            <input type="hidden" name="_method" value="patch" />
         <% } %>
         <div>
             <label for="Description">Description</label>
