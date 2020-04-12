@@ -1,19 +1,29 @@
 <h2>Comments</h2>
-<% if(!commentsList.length) { %>
-    <p> No results</p>
-<% }else{ >%
+<% if (!commentsList.length) { %>
+    <p>No results</p>
+<% } else { %>
     <table>
         <thead>
             <tr>
                 <th>Description</th>
+                <th colspan= "2"> Actions</th>
             </tr>
         </thead>
         <tbody>
             <% commentsList.forEach((comment) => { %>
                 <tr>
-                    <td> <%= comment.description %> </td>
+                    <td><%= comment.description %></td>
+                    <td><a  href="<%= editCommentPath(comment) %>">Edit</a></td>
+                    <td>
+                        <form action="<%= deleteCommentPath(comment) %>" method="POST">
+                            <input type="hidden" name="_method" value="delete" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </td>
                 </tr>
             <% }) %>
         </tbody>
     </table>
-    <% } >%
+    <% } %>
+
+<a href="<%= newCommentPath %>">New Comment</a>
