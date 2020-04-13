@@ -29,7 +29,7 @@ router.get('reviews.new', '/new', async (ctx) => {
 router.post('reviews.create', '/', async (ctx) => {
   const review = ctx.orm.review.build(ctx.request.body);
   try {
-    await review.save({ fields: ['description'] });
+    await review.save({ fields: ['description', 'puntuation'] });
     ctx.redirect(ctx.router.url('reviews.list'));
   } catch (validationError) {
     await ctx.render('reviews.new', {
@@ -51,8 +51,8 @@ router.get('reviews.edit', '/:id/edit', loadReview, async (ctx) => {
 router.patch('reviews.update', '/:id', loadReview, async (ctx) => {
   const { review } = ctx.state;
   try {
-    const { description } = ctx.request.body;
-    await review.update({ description });
+    const { description, puntuation } = ctx.request.body;
+    await review.update({ description, puntuation });
     ctx.redirect(ctx.router.url('reviews.list'));
   } catch (validationError) {
     await ctx.render('reviews/edit', {
