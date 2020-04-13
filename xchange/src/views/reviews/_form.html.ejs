@@ -19,7 +19,7 @@
         </div>
         <div>
             <label for="Puntuation">Puntiation</label>
-            <input type ="number" name="puntuation"><%= review.puntuation %></input>
+            <input type ="number" step="0.5" min=0 max=5 name="puntuation"  ><%= review.puntuation %></input>
         </div>
         <div>
             <% if (review.isNewRecord){ %>
