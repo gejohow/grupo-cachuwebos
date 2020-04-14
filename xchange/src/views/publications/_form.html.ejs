@@ -1,0 +1,64 @@
+<div>
+    <%if(locals.errors){ %>
+    <div class = "errors">
+        You need to fix the following errors:
+        <ul>
+            <% errors.forEach(error =>{ %>
+                <li><%= error.message %></li>
+            <% }) %>
+        </ul>
+    </div>
+    <% } %>
+    <form action="<%= submitPublicationPath %>" method="post">
+        <% if (!publication.isNewRecord){ %>
+            <input type="hidden" name="_method" value="patch" />
+        <% } %>
+        <div>
+            <label for="Name">Name</label>
+            <input type ="text" name="description"><%= publication.name %></input>
+        </div>
+        <div>
+            <label for="Description">Description</label>
+            <textarea type ="text" name="description"><%= publication.description %></textarea>
+        </div>
+        <div>
+            <label for="Image">Image</label>
+            <input type ="text" name="description"><%= publication.image %></input>
+        </div>
+        <div>
+            <label for="State">State</label>
+            <select id="state" name="state">
+                <option value="new">New</option>
+                <option value="almost new">Almost New</option>
+                <option value="used">Used</option>
+                <option value="restored">Restored</option>
+                <option value="other">Other</option>
+              </select>
+        </div>
+        <div>
+            <label for="Type">Type</label>
+            <select id="type" name="type">
+                <option value="books">Books</option>
+                <option value="estate">Estate</option>
+                <option value="fashion">Fashion</option>
+                <option value="health">Health</option>
+                <option value="home">Home</option>
+                <option value="music">Music</option>
+                <option value="sport">Sport</option>
+                <option value="technology">Technology</option>
+                <option value="toys">Toys</option>
+                <option value="tools">Tools</option>
+                <option value="vehicle">Vehicle</option>
+                <option value="other">Other</option>
+              </select>
+        </div>
+        <input type="hidden" name="negotiated" value="false" />
+        <div>
+            <% if (publication.isNewRecord){ %>
+                <input type="submit" name="create" value="Create" />
+            <%} else { %>
+                <input type="submit" name="update" value="Update" />
+            <% } %>
+        </div>
+    </form>
+</div> 
