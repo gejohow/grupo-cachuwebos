@@ -31,7 +31,7 @@ router.post('comments.create', '/', async (ctx) => {
     await comment.save({ fields: ['description'] });
     ctx.redirect(ctx.router.url('comments.list'));
   } catch (validationError) {
-    await ctx.render('comments.new', {
+    await ctx.render('comments/new', {
       comment,
       errors: validationError.errors,
       submitCommentPath: ctx.router.url('comments.create'),
