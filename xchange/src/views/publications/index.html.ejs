@@ -16,7 +16,7 @@
         <tbody>
             <% publicationsList.forEach((publication) => { %>
                 <tr>
-                    <td><%= publication.image %></td>
+                    <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></td>
                     <td><%= publication.name %></td>
                     <td><%= publication.description %></td>
                     <td><%= publication.state %></td>
@@ -30,7 +30,7 @@
                     </td>
                 </tr>
             <% }) %>
-        </tbody>publications
+        </tbody>
     </table>
     <% } %>
 
