@@ -31,7 +31,7 @@ router.post('publications.create', '/', async (ctx) => {
     await publication.save({ fields: ['name', 'description', 'image', 'state', 'type', 'negotiated'] });
     ctx.redirect(ctx.router.url('publications.list'));
   } catch (validationError) {
-    await ctx.render('publications.new', {
+    await ctx.render('publications/new', {
       publication,
       errors: validationError.errors,
       submitPublicationPath: ctx.router.url('publications.create'),
