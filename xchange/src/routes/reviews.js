@@ -32,7 +32,7 @@ router.post('reviews.create', '/', async (ctx) => {
     await review.save({ fields: ['description', 'puntuation'] });
     ctx.redirect(ctx.router.url('reviews.list'));
   } catch (validationError) {
-    await ctx.render('reviews.new', {
+    await ctx.render('reviews/new', {
       review,
       errors: validationError.errors,
       submitReviewPath: ctx.router.url('reviews.create'),
