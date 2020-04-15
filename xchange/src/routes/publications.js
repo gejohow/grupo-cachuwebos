@@ -7,6 +7,7 @@ async function loadPublication(ctx, next) {
   return next();
 }
 
+
 router.get('publications.list', '/', async (ctx) => {
   const publicationsList = await ctx.orm.publication.findAll();
   await ctx.render('publications/index', {
@@ -14,6 +15,14 @@ router.get('publications.list', '/', async (ctx) => {
     newPublicationPath: ctx.router.url('publications.new'),
     editPublicationPath: (publication) => ctx.router.url('publications.edit', { id: publication.id }),
     deletePublicationPath: (publication) => ctx.router.url('publications.delete', { id: publication.id }),
+    viewPublicationPath: (publication) => ctx.router.url('publications.view', { id: publication.id }),
+  });
+});
+
+router.get('publications.view', '/:id/view', loadPublication, async (ctx) => {
+	const { publication } = ctx.state;
+	await ctx.render('publications/view', {
+    publication,
   });
 });
 
