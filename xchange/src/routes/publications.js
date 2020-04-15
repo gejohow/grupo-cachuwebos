@@ -23,6 +23,8 @@ router.get('publications.view', '/:id/view', loadPublication, async (ctx) => {
 	const { publication } = ctx.state;
 	await ctx.render('publications/view', {
     publication,
+    editPublicationPath: (publication) => ctx.router.url('publications.edit', { id: publication.id }),
+    deletePublicationPath: (publication) => ctx.router.url('publications.delete', { id: publication.id }),
   });
 });
 
