@@ -1,0 +1,41 @@
+<h2>Publications</h2>
+<% if (!publicationsList.length) { %>
+    <p>No results</p>
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>State</th>
+                <th>Type</th>
+                <th colspan= "2"> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% publicationsList.forEach((publication) => { %>
+                <tr>
+                    <td>
+                        <a href="<%= viewPublicationPath(publication) %>">
+                        <img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" />
+                        </a>
+                    </td>
+                    <td><%= publication.name %></td>
+                    <td><%= publication.description %></td>
+                    <td><%= publication.state %></td>
+                    <td><%= publication.type %></td>
+                    <td><a  href="<%= editPublicationPath(publication) %>">Edit</a></td>
+                    <td>
+                        <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                            <input type="hidden" name="_method" value="delete" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } %>
+
+<a href="<%= newPublicationPath %>">New Publication</a>
