@@ -29,9 +29,9 @@ router.get('publications.view', '/:id/view', loadPublication, async (ctx) => {
     editPublicationPath: (editedPublication) => ctx.router.url('publications.edit', { id: editedPublication.id }),
     deletePublicationPath: (deletedPublication) => ctx.router.url('publications.delete', { id: deletedPublication.id }),
     commentsList,
-    newCommentPath: ctx.router.url('comments.new'),
-    editCommentPath: (comment) => ctx.router.url('comments.edit', { id: comment.id }),
-    deleteCommentPath: (comment) => ctx.router.url('comments.delete', { id: comment.id }),
+    newCommentPath: ctx.router.url('publications.comments.new', { id: publication.id }),
+    editCommentPath: (comment) => ctx.router.url('publications.comments.edit', { id: publication.id, commentId: comment.id }),
+    deleteCommentPath: (comment) => ctx.router.url('publications.comments.delete', { id: publication.id, commentId: comment.id }),
   });
 });
 
@@ -90,7 +90,7 @@ router.del('publications.delete', '/:id', loadPublication, async (ctx) => {
   ctx.redirect(ctx.router.url('publications.list'));
 });
 
-//comments routes:
+// comments routes:
 
 async function loadComment(ctx, next) {
   ctx.state.comment = await ctx.orm.comment.findByPk(ctx.params.id);
@@ -98,57 +98,71 @@ async function loadComment(ctx, next) {
 }
 
 
-router.get('publications.comments.new', '/:id/comments/new',loadPublication, async (ctx) => {
+router.get('publications.comments.new', '/:id/comments', loadPublication, async (ctx) => {
   const comment = ctx.orm.comment.build();
   const { publication } = ctx.state;
-  await ctx.render('/:id/comments/new', {
+  await ctx.render('/comments/new', {
     comment,
-    submitCommentPath: ctx.router.url('comments.create'),
+    publicationId: publication.id,
+    submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
   });
 });
 
-router.post('publications.comments.create', '/', async (ctx) => {
+router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPublication, async (ctx) => {
+  const { publication } = ctx.state;
+  const comment = await ctx.orm.comment.findOne({
+    where: { id: ctx.params.commentId },
+  });
+  await ctx.render('comments/edit', {
+    comment,
+    publicationId: publication.id,
+    submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: comment.id }),
+  });
+});
+
+router.post('publications.comments.create', '/:id', loadPublication, async (ctx) => {
   const comment = ctx.orm.comment.build(ctx.request.body);
+  const { publication } = ctx.state;
+  comment.publicationId = publication.id;
   try {
-    await comment.save({ fields: ['description'] });
-    ctx.redirect(ctx.router.url('comments.list'));
+    await comment.save({ fields: ['description', 'publicationId'] });
+    ctx.redirect(ctx.router.url('publications.view', { id: publication.id }));
   } catch (validationError) {
     await ctx.render('comments/new', {
       comment,
+      publicationId: publication.id,
       errors: validationError.errors,
-      submitCommentPath: ctx.router.url('comments.create'),
+      submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
     });
   }
 });
 
-router.get('comments.edit', '/:id/edit', loadComment, async (ctx) => {
-  const { comment } = ctx.state;
-  await ctx.render('comments/edit', {
-    comment,
-    submitCommentPath: ctx.router.url('comments.update', { id: comment.id }),
-  });
-});
-
-router.patch('comments.update', '/:id', loadComment, async (ctx) => {
-  const { comment } = ctx.state;
+router.patch('publications.comments.update', '/:id/comments/:commentId', loadPublication, async (ctx) => {
+  const { publication } = ctx.state;
+  const comment = ctx.orm.comment.build(ctx.request.body);
   try {
     const { description } = ctx.request.body;
     await comment.update({ description });
-    ctx.redirect(ctx.router.url('comments.list'));
+    ctx.redirect(ctx.router.url('publications.view', { id: publication.id }));
   } catch (validationError) {
     await ctx.render('comments/edit', {
       comment,
       errors: validationError.errors,
-      submitCommentPath: ctx.router.url('comments.update', { id: comment.id }),
+      submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: comment.id }),
     });
   }
 });
 
-router.del('comments.delete', '/:id', loadComment, async (ctx) => {
-  const { comment } = ctx.state;
-  await comment.destroy();
-  ctx.redirect(ctx.router.url('comments.list'));
-});
-
+router.del(
+  'publications.comments.delete', '/:id/comments/:commentId', loadPublication,
+  async (ctx) => {
+    const { publication } = ctx.state;
+    const comment = await ctx.orm.comment.findOne({
+      where: { id: ctx.params.commentId },
+    });
+    await comment.destroy();
+    ctx.redirect(ctx.router.url('publications.view', { id: publication.id }));
+  },
+);
 
 module.exports = router;
