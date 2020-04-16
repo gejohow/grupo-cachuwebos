@@ -1,0 +1,25 @@
+<h2>Negotiations</h2>
+<% if (!negotiationsList.lenght) { %>
+  <p>No results</p>
+<% } else { %>
+  <table>
+    <thead>
+      <tr>
+        <th>User1</th>
+        <th>User2</th>
+        <th>Objects1</th>
+        <th>Objects2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% negotiationsList.forEach((negotiation) => { %>
+        <tr>
+          <td><%= negotiation.user1 %></td>
+          <td><%= negotiation.user2 %></td>
+          <td><%= negotiation.objects1 %></td>
+          <td><%= negotiation.objects2 %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
