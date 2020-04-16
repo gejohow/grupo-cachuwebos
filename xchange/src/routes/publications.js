@@ -108,17 +108,6 @@ router.get('publications.comments.new', '/:id/comments', loadPublication, async 
   });
 });
 
-router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPublication, async (ctx) => {
-  const { publication } = ctx.state;
-  const comment = await ctx.orm.comment.findOne({
-    where: { id: ctx.params.commentId },
-  });
-  await ctx.render('comments/edit', {
-    comment,
-    publicationId: publication.id,
-    submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: comment.id }),
-  });
-});
 
 router.post('publications.comments.create', '/:id', loadPublication, async (ctx) => {
   const comment = ctx.orm.comment.build(ctx.request.body);
@@ -135,6 +124,18 @@ router.post('publications.comments.create', '/:id', loadPublication, async (ctx)
       submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
     });
   }
+});
+
+router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPublication, async (ctx) => {
+  const { publication } = ctx.state;
+  const comment = await ctx.orm.comment.findOne({
+    where: { id: ctx.params.commentId },
+  });
+  await ctx.render('comments/edit', {
+    comment,
+    publicationId: publication.id,
+    submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: comment.id }),
+  });
 });
 
 router.patch('publications.comments.update', '/:id/comments/:commentId', loadPublication, async (ctx) => {
