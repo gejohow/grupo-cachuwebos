@@ -8,8 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     negotiated: DataTypes.STRING,
   }, {});
 
-  publication.associate = function associate() {
+  publication.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
+    publication.hasMany(models.comment);
   };
 
   return publication;

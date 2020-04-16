@@ -6,11 +6,18 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-
     description: {
       type: Sequelize.TEXT,
+      allowNull: false,
     },
-
+    publicationId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'publications',
+        key: 'id',
+      },
+      allowNull: false,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
