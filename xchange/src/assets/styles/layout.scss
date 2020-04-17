@@ -55,7 +55,7 @@ form {
     margin-bottom: 2%;
     label {
       display: inline-block;
-      text-align: right;
+      text-align: center;
       vertical-align: top;
       width: 100px;
     }
@@ -72,7 +72,9 @@ form {
     }
     option{
       background-color:#0088a9;
-      
+    }
+    input[type=text]{
+      color: #1A3B5D;
     }
   }
 }
@@ -99,7 +101,7 @@ table {
 }
 
 textarea {
-  width: 10%;
+  width: 400px;
   height: 150px;
   color: #1A3B5D;
 }
@@ -107,4 +109,14 @@ textarea {
 .container {
   margin-top: 60px;
   margin-left: 20%;
+}
+
+#container-view {
+  display: flex;
+  flex-basis: auto;
+  align-self: center;
+  align-items: center;
+  h3{
+    margin: 10px;
+  }
 }

@@ -1,11 +1,12 @@
 <div class="container">
-    <h2><%=publication.name%></h2>
-
-    <a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a><%= publication.name %></td>
-    <%= publication.description %>
-    <%= publication.state %>
-    <%= publication.type %>
-    <a  href="<%= editPublicationPath(publication) %>">Edit</a>
+    <h1><%=publication.name%></h1>
+    <div id="container-view">
+        <a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a>
+        <h3><%= publication.description %></h3>
+        <h3><%= publication.state %></h3>
+        <h3><%= publication.type %></h3>
+        <button onclick="window.location.href='<%= editPublicationPath(publication) %>'">Edit</button>
+    </div>
     <form action="<%= deletePublicationPath(publication) %>" method="POST">
         <input type="hidden" name="_method" value="delete" />
         <input type="submit" value="Delete" />
