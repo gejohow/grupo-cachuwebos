@@ -26,7 +26,7 @@
             <% commentsList.forEach((comment) => { %>
                 <tr>
                     <td><%= comment.description %></td>
-                    <td><%= comment.updatedAt %></td>
+                    <td><%= comment.updatedAt.toISOString().split('T')[0] %></td>
                     <td><button onclick="window.location.href='<%= editCommentPath(comment) %>'">Edit</button></td>
                     <td>
                         <form action="<%= deleteCommentPath(comment) %>" method="POST">

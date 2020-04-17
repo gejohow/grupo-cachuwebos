@@ -97,7 +97,6 @@ async function loadComment(ctx, next) {
   return next();
 }
 
-
 router.get('publications.comments.new', '/:id/comments', loadPublication, async (ctx) => {
   const comment = ctx.orm.comment.build();
   const { publication } = ctx.state;
@@ -140,7 +139,10 @@ router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPu
 
 router.patch('publications.comments.update', '/:id/comments/:commentId', loadPublication, async (ctx) => {
   const { publication } = ctx.state;
-  const comment = ctx.orm.comment.build(ctx.request.body);
+  const comment = await ctx.orm.comment.findOne({
+    where: { id: ctx.params.commentId },
+  });
+  comment.publicationId = publication.id;
   try {
     const { description } = ctx.request.body;
     await comment.update({ description });
@@ -149,7 +151,7 @@ router.patch('publications.comments.update', '/:id/comments/:commentId', loadPub
     await ctx.render('comments/edit', {
       comment,
       errors: validationError.errors,
-      submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: comment.id }),
+      submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: ctx.params.commentId }),
     });
   }
 });

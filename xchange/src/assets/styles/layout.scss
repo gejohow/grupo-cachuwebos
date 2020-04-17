@@ -17,9 +17,7 @@ li,a{
   font-size: 20px;
   color: #edf0f1;
   text-decoration: none;
-
 }
-
 
 header{
   display: flex;
@@ -96,4 +94,10 @@ table {
   td {
     padding: 10px 15px; ;
   }
+}
+
+textarea {
+  width: 400px;
+  height: 150px;
+  color: #1A3B5D;
 }
