@@ -1,0 +1,40 @@
+<div>
+    <% if (locals.errors) { %>
+      <div class="errors">
+        You need to fix the following errors:
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.message %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+    <form action="<%= submitNegotiationPath %>" method="post">
+      <% if (!negotiation.isNewRecord) { %>
+        <input type="hidden" name="_method" value="patch" />
+      <% } %>
+      <div  class="field">
+        <label for="usuario1">Usuario1</label>
+        <input type="text" name="user1" value="<%= negotiation.user1 %>" />
+      </div>
+      <div  class="field">
+        <label for="usuario2">Usuario2</label>
+        <input type="text" name="user2" value="<%= negotiation.user2 %>" />
+      </div>
+      <div  class="field">
+        <label for="objects1">Objetos Usuario 1</label>
+        <input type="text" name="objects1" value="<%= negotiation.objects1 %>" />
+      </div>
+      <div  class="field">
+        <label for="objects2">Objetos Usuario 2</label>
+        <input type="text" name="objects2" value="<%= negotiation.objects2 %>" />
+      </div>
+      <div  class="field">
+        <% if (negotiation.isNewRecord) { %>
+          <input type="submit" name="create" value="Create" />
+        <% } else { %>
+          <input type="submit" name="update" value="Update" />
+        <% } %>
+      </div>
+    </form>
+  </div>
