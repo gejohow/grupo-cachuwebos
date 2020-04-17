@@ -1,44 +1,46 @@
-<h2><%=publication.name%></h2>
+<div class="container">
+    <h2><%=publication.name%></h2>
 
-<a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a><%= publication.name %></td>
-<%= publication.description %>
-<%= publication.state %>
-<%= publication.type %>
-<a  href="<%= editPublicationPath(publication) %>">Edit</a>
-<form action="<%= deletePublicationPath(publication) %>" method="POST">
-    <input type="hidden" name="_method" value="delete" />
-    <input type="submit" value="Delete" />
-</form>
+    <a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a><%= publication.name %></td>
+    <%= publication.description %>
+    <%= publication.state %>
+    <%= publication.type %>
+    <a  href="<%= editPublicationPath(publication) %>">Edit</a>
+    <form action="<%= deletePublicationPath(publication) %>" method="POST">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" value="Delete" />
+    </form>
 
-<h2>Comments</h2>
-<% if (!commentsList.length) { %>
-    <p>No results</p>
-<% } else { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th>Date</th>
-                <th colspan= "2"> Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% commentsList.forEach((comment) => { %>
+    <h2>Comments</h2>
+    <% if (!commentsList.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
                 <tr>
-                    <td><%= comment.description %></td>
-                    <td><%= comment.updatedAt.toISOString().split('T')[0] %></td>
-                    <td><button onclick="window.location.href='<%= editCommentPath(comment) %>'">Edit</button></td>
-                    <td>
-                        <form action="<%= deleteCommentPath(comment) %>" method="POST">
-                            <input type="hidden" name="_method" value="delete" />
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th colspan= "2"> Actions</th>
                 </tr>
-            <% }) %>
-        </tbody>
-    </table>
-    <% } %>
+            </thead>
+            <tbody>
+                <% commentsList.forEach((comment) => { %>
+                    <tr>
+                        <td><%= comment.description %></td>
+                        <td><%= comment.updatedAt.toISOString().split('T')[0] %></td>
+                        <td><button onclick="window.location.href='<%= editCommentPath(comment) %>'">Edit</button></td>
+                        <td>
+                            <form action="<%= deleteCommentPath(comment) %>" method="POST">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } %>
 
-    
-<button onclick="window.location.href='<%= newCommentPath %>'">New Comment</button>
+        
+    <button onclick="window.location.href='<%= newCommentPath %>'">New Comment</button>
+</div>

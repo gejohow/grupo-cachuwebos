@@ -49,9 +49,10 @@ header{
 }
 
 form {
+  margin-top: 10px;
   .field {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 2%;
+    margin-bottom: 2%;
     label {
       display: inline-block;
       text-align: right;
@@ -59,8 +60,8 @@ form {
       width: 100px;
     }
     textarea {
-      width: 400px;
-      height: 150px;
+      width: 40%;
+      height: 100px;
       color: #1A3B5D;
     }
     select{
@@ -86,18 +87,24 @@ input[type=submit],button {
 }
 
 table {
+  margin-top: 10px;
   th {
     background-color: #0088a9;
     text-align: center;
-    padding:5px 15px; 
+    padding:5px 30px; 
   }
   td {
-    padding: 10px 15px; ;
+    padding: 5% 4%; ;
   }
 }
 
 textarea {
-  width: 400px;
+  width: 10%;
   height: 150px;
   color: #1A3B5D;
+}
+
+.container {
+  margin-top: 60px;
+  margin-left: 20%;
 }
