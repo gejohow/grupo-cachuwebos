@@ -11,6 +11,9 @@ router.get('negotiations.list', '/', async (ctx) => {
   const negotiationsList = await ctx.orm.negotiation.findAll();
   await ctx.render('negotiations/index', {
     negotiationsList,
+    newNegotiationPath: ctx.router.url('negotiations.new'),
+    editNegotiationPath: (negotiation) => ctx.router.url('negotiations.edit', { id: negotiation.id }),
+    deleteNegotiationPath: (negotiation) => ctx.router.url('negotiations.delete', { id: negotiation.id }),
   });
 });
 
@@ -18,7 +21,7 @@ router.get('negotiations.new', '/new', async (ctx) => {
   const negotiation = ctx.orm.course.build();
   await ctx.render('negotiations/new', {
     negotiation,
-    submitCoursePath: ctx.router.url('negotiations.create'),
+    submitNegotiationPath: ctx.router.url('negotiations.create'),
   });
 });
 
@@ -31,7 +34,7 @@ router.post('negotiations.create', '/', async (ctx) => {
     await ctx.render('negotiations.new', {
       negotiation,
       errors: validationError.errors,
-      submitCoursePath: ctx.router.url('negotiations.create'),
+      submitNegotiationPath: ctx.router.url('negotiations.create'),
     });
   }
 });
@@ -40,7 +43,7 @@ router.get('negotiations.edit', '/:id/edit', loadNegotiation, async (ctx) => {
   const { negotiation } = ctx.state;
   await ctx.render('negotiations/edit', {
     negotiation,
-    submitCoursePath: ctx.router.url('negotiations.update', { id: negotiation.id }),
+    submitNegotiationPath: ctx.router.url('negotiations.update', { id: negotiation.id }),
   });
 });
 
@@ -58,7 +61,7 @@ router.patch('negotiations.update', '/:id', loadNegotiation, async (ctx) => {
     await ctx.render('negotiations/edit', {
       negotiation,
       errors: validationError.errors,
-      submitCoursePath: ctx.router.url('negotiations.update', { id: negotiation.id }),
+      submitNegotiationPath: ctx.router.url('negotiations.update', { id: negotiation.id }),
     });
   }
 });
