@@ -6,14 +6,20 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-
     description: {
       type: Sequelize.TEXT,
     },
     puntuation: {
       type: Sequelize.FLOAT,
     },
-
+    userId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      allowNull: false,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
