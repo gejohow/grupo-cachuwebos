@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compare(password, this.password);
   };
 
-  user.associate = function associate() {
+  user.associate = function associate(models) {
     user.hasMany(models.review);
   };
 

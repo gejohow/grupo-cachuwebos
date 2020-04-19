@@ -12,11 +12,11 @@ module.exports = {
     puntuation: {
       type: Sequelize.FLOAT,
     },
-    userId: {
-      type: Sequelize.INTEGER,
+    userUsername: {
+      type: Sequelize.STRING,
       references: {
         model: 'users',
-        key: 'id',
+        key: 'username',
       },
       allowNull: false,
     },
