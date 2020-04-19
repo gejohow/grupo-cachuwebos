@@ -18,7 +18,7 @@ router.get('negotiations.list', '/', async (ctx) => {
 });
 
 router.get('negotiations.new', '/new', async (ctx) => {
-  const negotiation = ctx.orm.course.build();
+  const negotiation = ctx.orm.negotation.build();
   await ctx.render('negotiations/new', {
     negotiation,
     submitNegotiationPath: ctx.router.url('negotiations.create'),
