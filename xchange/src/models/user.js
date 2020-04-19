@@ -17,6 +17,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
+    mail: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+      },
+      unique: true,
+    },
+    phonenumber: DataTypes.INTEGER,
+    puntuation: DataTypes.INTEGER,
     password: DataTypes.STRING,
   }, {});
 
@@ -30,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
-    user.hasMany(models.review, {as: 'reviews', foreignKey: 'userId'});
+    user.hasMany(models.review);
   };
 
   return user;
