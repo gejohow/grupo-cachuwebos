@@ -34,19 +34,18 @@ router.get('negotiations.list', '/', async (ctx) => {
 
 router.get('negotiations.view', '/:id/view', loadNegotiation, async (ctx) => {
   const { negotiation } = ctx.state;
-  const ids = await negotiation.publications.findAll({ attributes: ['id']});
-  const publicationsNot = await ctx.orm.publication.findAll({
-    where: {
-      id: { [Sequelize.Op.notIn]: ids},
-    },
+  const messagesList = await ctx.orm.message.findAll({
+    where: { negotiationId: negotiation.id },
   });
-
   await ctx.render('negotiations/view', {
     negotiation,
-    publicationsNot,
     editNegotiationPath: (editedNegotiation) => ctx.router.url('negotiations.edit', { id: editedNegotiation.id }),
     deleteNegotiationPath: (deletedNegotiation) => ctx.router.url('negotiations.delete', { id: deletedNegotiation.id }),
     deletePublicationPath: (publication) => ctx.router.url('negotiations.publication.delete', { id: negotiation.id, publicationId: publication.id }),
+    messagesList,
+    newMessagePath: ctx.router.url('negotiations.messages.new', { id: negotiation.id }),
+    editMessagePath: (message) => ctx.router.url('negotiations.messages.edit', { id: negotiation.id, messageId: message.id }),
+    deleteMessagePath: (message) => ctx.router.url('negotiations.messages.delete', { id: negotiation.id, messageId: message.id }),
   });
 });
 
@@ -135,5 +134,84 @@ router.del('negotiations.publication.delete', '/:id/publications/:publicationId'
   negotiation.removePublication(publication);
   ctx.redirect(ctx.router.url('negotiations.view', { id: ctx.params.id }));
 });
+
+
+// messages routes:
+
+async function loadMessage(ctx, next) {
+  ctx.state.message = await ctx.orm.message.findByPk(ctx.params.id);
+  return next();
+}
+
+router.get('negotiations.messages.new', '/:id/messages', loadNegotiation, async (ctx) => {
+  const message = ctx.orm.message.build();
+  const { negotiation } = ctx.state;
+  await ctx.render('/messages/new', {
+    message,
+    negotiationId: negotiation.id,
+    submitMessagePath: ctx.router.url('negotiations.messages.create', { id: negotiation.id }),
+  });
+});
+
+
+router.post('negotiations.messages.create', '/:id', loadNegotiation, async (ctx) => {
+  const message = ctx.orm.message.build(ctx.request.body);
+  const { negotiation } = ctx.state;
+  message.negotiationId = negotiation.id;
+  try {
+    await message.save({ fields: ['description', 'negotiationId'] });
+    ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
+  } catch (validationError) {
+    await ctx.render('messages/new', {
+      message,
+      negotiationId: negotiation.id,
+      errors: validationError.errors,
+      submitMessagePath: ctx.router.url('negotiations.messages.create', { id: negotiation.id }),
+    });
+  }
+});
+
+router.get('negotiations.messages.edit', '/:id/messages/:messageId/edit', loadNegotiation, async (ctx) => {
+  const { negotiation } = ctx.state;
+  const message = await ctx.orm.message.findOne({
+    where: { id: ctx.params.messageId },
+  });
+  await ctx.render('messages/edit', {
+    message,
+    negotiationId: negotiation.id,
+    submitMessagePath: ctx.router.url('negotiations.messages.update', { id: negotiation.id, messageId: message.id }),
+  });
+});
+
+router.patch('negotiations.messages.update', '/:id/messages/:messageId', loadNegotiation, async (ctx) => {
+  const { negotiation } = ctx.state;
+  const message = await ctx.orm.message.findOne({
+    where: { id: ctx.params.messageId },
+  });
+  message.negotiationId = negotiation.id;
+  try {
+    const { description } = ctx.request.body;
+    await message.update({ description });
+    ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
+  } catch (validationError) {
+    await ctx.render('messages/edit', {
+      message,
+      errors: validationError.errors,
+      submitMessagePath: ctx.router.url('negotiations.messages.update', { id: negotiation.id, messageId: ctx.params.messageId }),
+    });
+  }
+});
+
+router.del(
+  'negotiations.messages.delete', '/:id/messages/:messageId', loadNegotiation,
+  async (ctx) => {
+    const { negotiation } = ctx.state;
+    const message = await ctx.orm.message.findOne({
+      where: { id: ctx.params.messageId },
+    });
+    await message.destroy();
+    ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
+  },
+);
 
 module.exports = router;
