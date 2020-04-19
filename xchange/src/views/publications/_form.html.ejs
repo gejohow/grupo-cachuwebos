@@ -52,6 +52,16 @@
                 <option value="Other">Other</option>
               </select>
         </div>
+
+        <div class="field">
+            <label for="userId">Published by: </label>
+            <select id="userId" name="userId">
+            <% for (i = 0; i < userList.length; i++) {%>
+                <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+            <% } %>
+            </select>
+        </div>
+
         <input type="hidden" name="negotiated" value="false" />
         <div>
             <% if (publication.isNewRecord){ %>

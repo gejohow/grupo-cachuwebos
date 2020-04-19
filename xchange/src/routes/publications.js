@@ -7,11 +7,17 @@ async function loadPublication(ctx, next) {
   return next();
 }
 
+async function loadUserList(ctx, next) {
+  ctx.state.userList = await ctx.orm.user.findAll();
+  return next();
+}
 
-router.get('publications.list', '/', async (ctx) => {
+router.get('publications.list', '/', loadUserList, async (ctx) => {
   const publicationsList = await ctx.orm.publication.findAll();
+  const userList = ctx.state.userList;
   await ctx.render('publications/index', {
     publicationsList,
+    userList,
     newPublicationPath: ctx.router.url('publications.new'),
     editPublicationPath: (publication) => ctx.router.url('publications.edit', { id: publication.id }),
     deletePublicationPath: (publication) => ctx.router.url('publications.delete', { id: publication.id }),
@@ -35,18 +41,21 @@ router.get('publications.view', '/:id/view', loadPublication, async (ctx) => {
   });
 });
 
-router.get('publications.new', '/new', async (ctx) => {
+router.get('publications.new', '/new', loadUserList, async (ctx) => {
   const publication = ctx.orm.publication.build();
+  const userList = ctx.state.userList;
   await ctx.render('publications/new', {
     publication,
+    userList,
     submitPublicationPath: ctx.router.url('publications.create'),
   });
 });
 
-router.post('publications.create', '/', async (ctx) => {
+router.post('publications.create', '/', loadUserList, async (ctx) => {
   const publication = ctx.orm.publication.build(ctx.request.body);
+  const userList = ctx.state.userList;
   try {
-    await publication.save({ fields: ['name', 'description', 'image', 'state', 'type', 'negotiated'] });
+    await publication.save({ fields: ['name', 'description', 'image', 'state', 'type', 'negotiated', 'userId'] });
     ctx.redirect(ctx.router.url('publications.list'));
   } catch (validationError) {
     await ctx.render('publications/new', {

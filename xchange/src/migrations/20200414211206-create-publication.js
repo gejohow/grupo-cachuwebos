@@ -27,6 +27,14 @@ module.exports = {
     negotiated: {
       type: Sequelize.STRING,
     },
+    userId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      allowNull: false,
+    },
 
     createdAt: {
       allowNull: false,

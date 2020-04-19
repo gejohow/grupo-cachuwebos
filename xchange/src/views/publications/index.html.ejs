@@ -11,11 +11,13 @@
                 <th>Name</th>
                 <th>State</th>
                 <th>Type</th>
+                <th>Created By</th>
                 <th colspan= "2"> Actions</th>
             </tr>
         </thead>
         <tbody>
             <% publicationsList.forEach((publication) => { %>
+                <% user = userList.find(x => x.id == publication.userId) %>
                 <tr>
                     <td>
                         <a href="<%= viewPublicationPath(publication) %>">
@@ -25,6 +27,7 @@
                     <td><%= publication.name %></td>
                     <td><%= publication.state %></td>
                     <td><%= publication.type %></td>
+                    <td><%= user.firstName %> <%= user.lastName %></td>
                     <td><button onclick="window.location.href='<%= editPublicationPath(publication) %>'">Edit</button></td>
                     <td>
                         <form action="<%= deletePublicationPath(publication) %>" method="POST">
