@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   user.associate = function associate() {
-    user.hasMany(models.review);
+    // associations can be defined here. This method receives a models parameter.
   };
 
   return user;
