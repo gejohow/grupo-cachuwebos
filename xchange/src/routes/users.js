@@ -167,18 +167,6 @@ router.patch('users.reviews.update', '/:id/reviews/:reviewId', loadUser, async (
   }
 });
 
-/*
-router.get('reviews.list', '/', async (ctx) => {
-  const reviewsList = await ctx.orm.review.findAll();
-  await ctx.render('reviews/index', {
-    reviewsList,
-    newReviewPath: ctx.router.url('reviews.new'),
-    editReviewPath: (review) => ctx.router.url('reviews.edit', { id: review.id }),
-    deleteReviewPath: (review) => ctx.router.url('reviews.delete', { id: review.id }),
-  });
-});
-**/
-
 router.del('users.reviews.delete', '/:id/revies/:reviewId', loadUser, async (ctx) => {
   const { user } = ctx.state;
   const review = await ctx.orm.review.findOne({
