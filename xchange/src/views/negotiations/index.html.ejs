@@ -1,0 +1,39 @@
+
+<div class="container">
+  
+  <h2>Negotiations</h2>
+  <% if (!negotiationsList.length) { %>
+    <p>No results</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>User1</th>
+          <th>User2</th>
+          <th>Objects1</th>
+          <th>Objects2</th>
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% negotiationsList.forEach((negotiation) => { %>
+          <tr>
+            <td><%= negotiation.user1 %></td>
+            <td><%= negotiation.user2 %></td>
+            <td><%= negotiation.objects1 %></td>
+            <td><%= negotiation.objects2 %></td>
+            <td><a href="<%= editNegotiationPath(negotiation) %>">Edit</a></td>
+            <td>
+              <form action="<%= deleteNegotiationPath(negotiation) %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" />
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <a href="<%= newNegotiationPath %>">New Negotiation</a>
+</div>
