@@ -2,17 +2,17 @@ module.exports = (sequelize, DataTypes) => {
   const review = sequelize.define('review', {
     description: DataTypes.TEXT,
     puntuation: DataTypes.FLOAT,
-    userUsername: {
-      type: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
       references: {
         model: 'users',
-        key: 'username',
+        key: 'id',
       },
       allowNull: false,
     },
   });
 
-  review.associate = function associate(models) {
+  review.associate = function associate() {
     // associations can be defined here. This method receives a models parameter.
     review.belongsTo(models.user);
   };
