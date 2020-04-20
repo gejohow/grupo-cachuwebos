@@ -141,6 +141,7 @@ router.post('users.reviews.create', '/:id', loadUser, loadUserList, async (ctx) 
   } catch (validationError) {
     await ctx.render('reviews/new', {
       review,
+      userList,
       userId: user.id,
       errors: validationError.errors,
       submitReviewPath: ctx.router.url('users.reviews.create', { id: user.id }),
@@ -148,20 +149,21 @@ router.post('users.reviews.create', '/:id', loadUser, loadUserList, async (ctx) 
   }
 });
 
-router.get('users.reviews.edit', '/:id/reviews/:reviewId/edit', loadUser, async (ctx) => {
-  const { user } = ctx.state;
+router.get('users.reviews.edit', '/:id/reviews/:reviewId/edit', loadUser, loadUserList, async (ctx) => {
+  const { user, userList} = ctx.state;
   const review = await ctx.orm.review.findOne({
     where: { id: ctx.params.reviewId },
   });
   await ctx.render('reviews/edit', {
     review,
     userId: user.id,
+    userList,
     submitReviewPath: ctx.router.url('users.reviews.update', { id: user.id, reviewId: review.id }),
   });
 });
 
-router.patch('users.reviews.update', '/:id/reviews/:reviewId', loadUser, async (ctx) => {
-  const { user } = ctx.state;
+router.patch('users.reviews.update', '/:id/reviews/:reviewId', loadUser, loadUserList, async (ctx) => {
+  const { user, userList } = ctx.state;
   const review = await ctx.orm.review.findOne({
     where: { id: ctx.params.reviewId },
   });
@@ -173,6 +175,7 @@ router.patch('users.reviews.update', '/:id/reviews/:reviewId', loadUser, async (
   } catch (validationError) {
     await ctx.render('reviews/edit', {
       review,
+      userList,
       errors: validationError.errors,
       submitReviewPath: ctx.router.url('users.reviews.update', { id: user.id, reviewId: ctx.params.reviewId }),
     });

@@ -76,6 +76,12 @@ form {
     input[type=text]{
       color: #1A3B5D;
     }
+    input[type=number]{
+      color: #1A3B5D;
+    }
+    input[type=password]{
+      color: #1A3B5D;
+    }
   }
 }
 
@@ -103,6 +109,10 @@ table {
 textarea {
   width: 400px;
   height: 150px;
+  color: #1A3B5D;
+}
+
+input[type=number]{
   color: #1A3B5D;
 }
 

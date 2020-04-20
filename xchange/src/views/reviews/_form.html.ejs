@@ -15,11 +15,11 @@
         <% } %>
         <div>
             <label for="Description">Description</label>
-            <textarea type ="text" name="description"><%= review.description %></textarea>
+            <textarea type ="text" name="description" value="<%= review.description %>"></textarea>
         </div>
         <div>
             <label for="Puntuation">Puntuation</label>
-            <input type ="number" step="0.5" min=0 max=5 name="puntuation"  ><%= review.puntuation %></input>
+            <input type ="number" step="0.5" min=0 max=5 name="puntuation"  value="<%= review.puntuation %>"></input>
         </div>
         <div class="field">
             <label for="creatorId">Commented by: </label>
