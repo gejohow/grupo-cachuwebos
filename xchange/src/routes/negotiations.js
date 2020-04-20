@@ -34,19 +34,19 @@ router.get('negotiations.list', '/', async (ctx) => {
 
 router.get('negotiations.view', '/:id/view', loadNegotiation, async (ctx) => {
   const { negotiation } = ctx.state;
-  const ids = await negotiation.publications.findAll({ attributes: ['id']});
-  const publicationsNot = await ctx.orm.publication.findAll({
-    where: {
-      id: { [Sequelize.Op.notIn]: ids},
-    },
-  });
-
+  //  const publicationsList = await ctx.orm.publication.findAll({
+  //   where: {userId: {in: [negotiation.user1,negotiation.user2]}}
+  //   },
+  // });
+  const publicationsList = await ctx.orm.publication.findAll();
   await ctx.render('negotiations/view', {
     negotiation,
-    publicationsNot,
+    publicationsList,
+    // publicationsNot,
     editNegotiationPath: (editedNegotiation) => ctx.router.url('negotiations.edit', { id: editedNegotiation.id }),
     deleteNegotiationPath: (deletedNegotiation) => ctx.router.url('negotiations.delete', { id: deletedNegotiation.id }),
     deletePublicationPath: (publication) => ctx.router.url('negotiations.publication.delete', { id: negotiation.id, publicationId: publication.id }),
+    addPublicationPath: (publication) => ctx.router.url('negotiations.publication.add', { id: negotiation.id, publicationId: publication.id }),
   });
 });
 
@@ -133,6 +133,15 @@ router.del('negotiations.publication.delete', '/:id/publications/:publicationId'
   const publication = await ctx.orm.publication.findByPk(ctx.params.publicationId);
   const { negotiation } = ctx.state;
   negotiation.removePublication(publication);
+  ctx.redirect(ctx.router.url('negotiations.view', { id: ctx.params.id }));
+});
+
+router.del('negotiations.publication.add', '/:id/publications/:publicationId', loadNegotiation, async (ctx) => {
+  const publicationNegotiation = ctx.orm.publicationNegotiation.build();
+  const { negotiation } = ctx.state;
+  publicationNegotiation.publicationId = ctx.params.publicationId;
+  publicationNegotiation.negotiationId = negotiation.id;
+  await publicationNegotiation.save();
   ctx.redirect(ctx.router.url('negotiations.view', { id: ctx.params.id }));
 });
 
