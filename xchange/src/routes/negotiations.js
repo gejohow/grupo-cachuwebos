@@ -266,7 +266,7 @@ router.post('negotiations.create', '/', loadUserList, loadPublicationsList, asyn
     publicationNegotiation2.publicationId = ctx.request.body.objects2;
     publicationNegotiation2.negotiationId = negotiation.id;
     await publicationNegotiation2.save();
-    ctx.redirect(ctx.router.url('negotiations.list'));
+    ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
   } catch (validationError) {
     console.log(validationError);
     await ctx.render('negotiations/new', {

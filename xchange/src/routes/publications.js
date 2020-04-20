@@ -30,6 +30,7 @@ router.get('publications.view', '/:id/view', loadPublication, loadUserList, asyn
   const commentsList = await ctx.orm.comment.findAll({
     where: { publicationId: publication.id },
   });
+  const negotiation = await ctx.orm.negotiation.build();
   const comment = ctx.orm.comment.build();
   await ctx.render('publications/view', {
     publication,
@@ -41,6 +42,7 @@ router.get('publications.view', '/:id/view', loadPublication, loadUserList, asyn
     newCommentPath: ctx.router.url('publications.comments.new', { id: publication.id }),
     editCommentPath: (editComment) => ctx.router.url('publications.comments.edit', { id: publication.id, commentId: editComment.id }),
     deleteCommentPath: (deleteComment) => ctx.router.url('publications.comments.delete', { id: publication.id, commentId: deleteComment.id }),
+    newNegotiationPath: ctx.router.url('negotiations.new'),
     submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
   });
 });
