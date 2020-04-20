@@ -13,7 +13,7 @@
         <input type="submit" value="Delete" />
     </form>
 
-    <h2>Publications</h2>
+    <h2>Publications In negotiation</h2>
     <% if (!negotiation.publications.length) { %>
         <p>No results</p>
     <% } else { %>
@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,4 +39,27 @@
             </tbody>
         </table>
         <% } %>
+        <h2>Publications not in negotiation</h2>
+        <% if (!publicationsList.length) { %>
+            <p>No results</p>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% publicationsList.forEach((publication) => { %>
+                        <tr>
+                            <td><%= publication.name %></td>
+                            <td>
+                                <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <% } %>
 </div>
