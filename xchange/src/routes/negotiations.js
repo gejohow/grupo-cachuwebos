@@ -26,8 +26,8 @@ async function loadUserList(ctx, next) {
   return next();
 }
 
-async function loadPublicationList(ctx, next) {
-  ctx.state.publicationList = await ctx.orm.publication.findAll();
+async function loadPublicationsList(ctx, next) {
+  ctx.state.publicationsList = await ctx.orm.publication.findAll();
   return next();
 }
 
@@ -43,14 +43,14 @@ router.get('negotiations.list', '/', async (ctx) => {
   });
 });
 
-router.get('negotiations.view', '/:id/view', loadNegotiation, loadPublicationList, loadUserList, async (ctx) => {
-  const { negotiation, publicationList, userList } = ctx.state;
+router.get('negotiations.view', '/:id/view', loadNegotiation, loadPublicationsList, loadUserList, async (ctx) => {
+  const { negotiation, publicationsList, userList } = ctx.state;
   const messagesList = await ctx.orm.message.findAll({
     where: { negotiationId: negotiation.id },
   });
   await ctx.render('negotiations/view', {
     negotiation,
-    publicationList,
+    publicationsList,
     userList,
     editNegotiationPath: (editedNegotiation) => ctx.router.url('negotiations.edit', { id: editedNegotiation.id }),
     deleteNegotiationPath: (deletedNegotiation) => ctx.router.url('negotiations.delete', { id: deletedNegotiation.id }),

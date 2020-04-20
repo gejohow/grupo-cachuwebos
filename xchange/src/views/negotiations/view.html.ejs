@@ -13,23 +13,26 @@
         <input type="submit" value="Delete" />
     </form>
 
-    <h2>Publications In negotiation</h2>
-    <% if (!negotiation.publications.length) { %>
+    <h2>Messages</h2>
+    <% if (!messagesList.length) { %>
         <p>No results</p>
     <% } else { %>
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Action</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th colspan= "2"> Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <% negotiation.publications.forEach((publication) => { %>
+                <% messagesList.forEach((message) => { %>
                     <tr>
-                        <td><%= publication.name %></td>
+                        <td><%= message.content %></td>
+                        <td><%= message.updatedAt.toISOString().split('T')[0] %></td>
+                        <td><button onclick="window.location.href='<%= editMessagePath(message) %>'">Edit</button></td>
                         <td>
-                            <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                            <form action="<%= deleteMessagePath(message) %>" method="POST">
                                 <input type="hidden" name="_method" value="delete" />
                                 <input type="submit" value="Delete" />
                             </form>
@@ -38,78 +41,36 @@
                 <% }) %>
             </tbody>
         </table>
-        <% } %>
+    <% } %>
 
-        <h2>Messages</h2>
-        <% if (!messagessList.length) { %>
-            <p>No results</p>
-        <% } else { %>
-            <table>
-                <thead>
+    <h2>Publications not in negotiation</h2>
+    <% if (!publicationsList.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th colspan= "2"> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% publicationsList.forEach((publication) => { %>
                     <tr>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th colspan= "2"> Actions</th>
+                        <td><%= publication.name %></td>
+                        <td>
+                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <% messagesList.forEach((message) => { %>
-                        <tr>
-                            <td><%= message.description %></td>
-                            <td><%= message.updatedAt.toISOString().split('T')[0] %></td>
-                            <td><button onclick="window.location.href='<%= editMessagePath(message) %>'">Edit</button></td>
-                            <td>
-                                <form action="<%= deleteMessagePath(message) %>" method="POST">
-                                    <input type="hidden" name="_method" value="delete" />
-                                    <input type="submit" value="Delete" />
-                                </form>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } %>
-
-        <h2>Publications not in negotiation</h2>
-        <% if (!publicationsList.length) { %>
-            <p>No results</p>
-        <% } else { %>
-            <table>
-                <thead>
-                    <tr>
-
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th colspan= "2"> Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% messagesList.forEach((message) => { %>
-                        <tr>
-                            <td><%= message.description %></td>
-                            <td><%= message.updatedAt.toISOString().split('T')[0] %></td>
-                            <td><button onclick="window.location.href='<%= editMessagePath(message) %>'">Edit</button></td>
-                            <td>
-                                <form action="<%= deleteMessagePath(message) %>" method="POST">
-                                    <input type="hidden" name="_method" value="delete" />
-                                    <input type="submit" value="Delete" />
-                                </form>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% publicationsList.forEach((publication) => { %>
-                        <tr>
-                            <td><%= publication.name %></td>
-                            <td>
-                                <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-            <% } %>
-        <% } %>
-
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
 </div>
