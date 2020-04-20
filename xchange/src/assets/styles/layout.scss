@@ -96,6 +96,7 @@ input[type=submit],button {
 
 table {
   margin-top: 10px;
+  margin: 10px;
   th {
     background-color: #0088a9;
     text-align: center;
@@ -129,4 +130,22 @@ input[type=number]{
   h3{
     margin: 10px;
   }
+}
+
+#list-container {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  align-self: center;
+  align-items: start;
+  margin: 10px;
+  padding: 10px;
+  h3{
+    margin: 10px;
+  }
+}
+
+#container-table {
+  margin: 10px;
+  padding: 10px;
 }

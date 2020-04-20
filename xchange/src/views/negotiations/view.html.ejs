@@ -11,115 +11,127 @@
         <input type="submit" value="Delete" />
     </form>
 
-    <h2>Publication of <%= userOne.username %> in Negotiation</h2>
-    <% if (! publicationsIn1List.length) { %>
-        <p>No results</p>
-    <% } else { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%  publicationsIn1List.forEach((publication) => { %>
-                    <tr>
-                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
-                        <td><%= publication.name %></td>
-                        <td>
-                            <form action="<%= deletePublicationPath(publication) %>" method="POST">
-                                <input type="hidden" name="_method" value="delete" />
-                                <input type="submit" value="Delete" />
-                            </form>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    <% } %>
+    <div id="list-container">
+        <div id ="container-table">
+            <h2>Publication of <%= userOne.username %> in Negotiation</h2>
+            <% if (! publicationsIn1List.length) { %>
+                <p>No results</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%  publicationsIn1List.forEach((publication) => { %>
+                            <tr>
+                                <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
+                                <td><%= publication.name %></td>
+                                <td>
+                                    <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                                        <input type="hidden" name="_method" value="delete" />
+                                        <input type="submit" value="Delete" />
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
 
-    <h2>Publication of <%= userTwo.username %> in Negotiation</h2>
-    <% if (!publicationsIn2List.length) { %>
-        <p>No results</p>
-    <% } else { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% publicationsIn2List.forEach((publication) => { %>
-                    <tr>
-                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
-                        <td><%= publication.name %></td>
-                        <td>
-                            <form action="<%= deletePublicationPath(publication) %>" method="POST">
-                                <input type="hidden" name="_method" value="delete" />
-                                <input type="submit" value="Delete" />
-                            </form>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    <% } %>
+        <div id ="container-table">
+            <h2>Publication of <%= userTwo.username %> in Negotiation</h2>
+            <% if (!publicationsIn2List.length) { %>
+                <p>No results</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% publicationsIn2List.forEach((publication) => { %>
+                            <tr>
+                                <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
+                                <td><%= publication.name %></td>
+                                <td>
+                                    <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                                        <input type="hidden" name="_method" value="delete" />
+                                        <input type="submit" value="Delete" />
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+    </div>
 
-    <h2><%= userOne.username %> Publications</h2>
-    <% if (!notpublications1List.length) { %>
-        <p>No results</p>
-    <% } else { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% notpublications1List.forEach((publication) => { %>
-                    <tr>
-                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
-                        <td><%= publication.name %></td>
-                        <td>
-                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    <% } %>
 
-    <h2><%= userTwo.username %> Publications</h2>
-    <% if (!notpublications2List.length) { %>
-        <p>No results</p>
-    <% } else { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% notpublications2List.forEach((publication) => { %>
-                    <tr>
-                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
-                        <td><%= publication.name %></td>
-                        <td>
-                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    <% } %>
+    <div id="list-container">
+        <div id ="container-table">
+            <h2><%= userOne.username %> Publications</h2>
+            <% if (!notpublications1List.length) { %>
+                <p>No results</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% notpublications1List.forEach((publication) => { %>
+                            <tr>
+                                <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
+                                <td><%= publication.name %></td>
+                                <td>
+                                    <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+        <div id ="container-table">
+            <h2><%= userTwo.username %> Publications</h2>
+            <% if (!notpublications2List.length) { %>
+                <p>No results</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% notpublications2List.forEach((publication) => { %>
+                            <tr>
+                                <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
+                                <td><%= publication.name %></td>
+                                <td>
+                                    <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+    </div>
 
     <h2>Messages</h2>
     <% if (!messagesList.length) { %>
