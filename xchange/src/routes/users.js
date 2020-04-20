@@ -3,10 +3,10 @@ const KoaRouter = require('koa-router');
 const router = KoaRouter();
 
 async function loadUser(ctx, next) {
-	ctx.state.user = await ctx.orm.user.findOne({
-		where: { id: ctx.params.id },
-	});
-	return next();
+  ctx.state.user = await ctx.orm.user.findOne({
+    where: { id: ctx.params.id },
+  });
+  return next();
 }
 
 async function loadUserList(ctx, next) {
@@ -16,7 +16,7 @@ async function loadUserList(ctx, next) {
 
 
 router.get('users.list', '/', async (ctx) => {
-	const usersList = await ctx.orm.user.findAll();
+  const usersList = await ctx.orm.user.findAll();
   await ctx.render('users/index', {
     usersList,
     newUserPath: ctx.router.url('users.new'),
@@ -28,11 +28,11 @@ router.get('users.list', '/', async (ctx) => {
 
 
 router.get('users.view', '/:id/view', loadUser, loadUserList, async (ctx) => {
-	const { user, userList } = ctx.state;
+  const { user, userList } = ctx.state;
   const reviewsList = await ctx.orm.review.findAll({
-    where: {userId: user.id},
+    where: { userId: user.id },
   });
-	await ctx.render('users/view', {
+  await ctx.render('users/view', {
     user,
     editUserPath: (editedUser) => ctx.router.url('users.edit', { id: editedUser.id }),
     deleteUserPath: (deletedUser) => ctx.router.url('users.delete', { id: deletedUser.id }),
@@ -46,7 +46,7 @@ router.get('users.view', '/:id/view', loadUser, loadUserList, async (ctx) => {
 
 
 router.get('users.new', '/new', async (ctx) => {
-	const user = await ctx.orm.user.build();
+  const user = await ctx.orm.user.build();
   await ctx.render('users/new', {
     user,
     submitUserPath: ctx.router.url('users.create'),

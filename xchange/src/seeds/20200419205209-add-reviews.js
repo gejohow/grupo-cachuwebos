@@ -17,7 +17,7 @@ module.exports = {
         userId: 1,
         creatorId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         description: 'Este wn es piola',
@@ -25,12 +25,12 @@ module.exports = {
         userId: 1,
         creatorId: 2,
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     ];
 
-    return queryInterface.bulkInsert('reviews', usersData)
+    return queryInterface.bulkInsert('reviews', usersData);
   },
 
-  down: (queryInterface) => queryInterface.bulkDelete('reviews', null, {})
+  down: (queryInterface) => queryInterface.bulkDelete('reviews', null, {}),
 };

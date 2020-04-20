@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'negotiationId',
       otherKey: 'publicationId',
     });
-    negotiation.belongsTo(models.user, {as: 'userOne'});
-    negotiation.belongsTo(models.user, {as: 'userTwo'});
+    negotiation.belongsTo(models.user, { as: 'userOne' });
+    negotiation.belongsTo(models.user, { as: 'userTwo' });
   };
 
   return negotiation;

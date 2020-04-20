@@ -17,13 +17,13 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
       allowNull: false,
-    }
+    },
   }, {});
 
   review.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
     review.belongsTo(models.user);
-    review.belongsTo(models.user, {as: 'creator'});
+    review.belongsTo(models.user, { as: 'creator' });
   };
 
   return review;

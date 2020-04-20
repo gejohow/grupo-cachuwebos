@@ -17,7 +17,7 @@ module.exports = {
         lastName: 'User',
         password: 'test1',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         username: 'testuser2',
@@ -25,12 +25,12 @@ module.exports = {
         lastName: 'User',
         password: 'test2',
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     ];
 
-    return queryInterface.bulkInsert('users', usersData)
+    return queryInterface.bulkInsert('users', usersData);
   },
 
-  down: (queryInterface) => queryInterface.bulkDelete('users', null, {})
+  down: (queryInterface) => queryInterface.bulkDelete('users', null, {}),
 };

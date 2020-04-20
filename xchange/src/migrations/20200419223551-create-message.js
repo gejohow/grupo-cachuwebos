@@ -7,9 +7,25 @@ module.exports = {
       type: Sequelize.INTEGER,
     },
 
-    user: {
-      type: Sequelize.STRING,
+    userId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'publications',
+        key: 'id',
+      },
+      allowNull: false,
     },
+
+    negotiationId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'publications',
+        key: 'id',
+      },
+      allowNull: false,
+    },
+
+    content: Sequelize.TEXT,
 
     createdAt: {
       allowNull: false,

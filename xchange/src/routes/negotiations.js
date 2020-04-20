@@ -176,7 +176,7 @@ router.post('negotiations.messages.create', '/:id', loadNegotiation, async (ctx)
   const { negotiation } = ctx.state;
   message.negotiationId = negotiation.id;
   try {
-    await message.save({ fields: ['description', 'negotiationId'] });
+    await message.save({ fields: ['description', 'negotiationId', 'userId'] });
     ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
   } catch (validationError) {
     await ctx.render('messages/new', {
