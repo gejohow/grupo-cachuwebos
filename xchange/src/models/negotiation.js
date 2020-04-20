@@ -1,7 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
   const negotiation = sequelize.define('negotiation', {
-    user1: DataTypes.STRING,
-    user2: DataTypes.STRING,
+    userOneId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+    userTwoId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
     objects1: DataTypes.STRING,
     objects2: DataTypes.STRING,
   }, {});
@@ -14,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'negotiationId',
       otherKey: 'publicationId',
     });
+    negotiation.belongsTo(models.user, {as: 'userOne'});
+    negotiation.belongsTo(models.user, {as: 'userTwo'});
   };
 
   return negotiation;

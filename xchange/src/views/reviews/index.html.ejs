@@ -7,14 +7,17 @@
             <tr>
                 <th>Description</th>
                 <th>Puntuation</th>
+                <th>Review by</th>
                 <th colspan= "2"> Actions</th>
             </tr>
         </thead>
         <tbody>
             <% reviewsList.forEach((review) => { %>
+                <% user = userList.find(x => x.id == review.creatorId) %>
                 <tr>
                     <td><%= review.description %></td>
                     <td><%= review.puntuation %></td>
+                    <td><%= user.firstName %> <%= user.lastName %></td>
                     <td><a  href="<%= editReviewPath(review) %>">Edit</a></td>
                     <td>
                         <form action="<%= deleteReviewPath(review) %>" method="POST">

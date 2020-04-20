@@ -15,6 +15,7 @@ module.exports = {
         description: 'Este wn es piola',
         puntuation: 3.5,
         userId: 1,
+        creatorId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -22,6 +23,7 @@ module.exports = {
         description: 'Este wn es piola',
         puntuation: 5,
         userId: 1,
+        creatorId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }

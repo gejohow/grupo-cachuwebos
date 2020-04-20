@@ -7,11 +7,21 @@ module.exports = {
       type: Sequelize.INTEGER,
     },
 
-    user1: {
-      type: Sequelize.STRING,
+    userOneId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      allowNull: false,
     },
-    user2: {
-      type: Sequelize.STRING,
+    userTwoId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      allowNull: false,
     },
     objects1: {
       type: Sequelize.STRING,

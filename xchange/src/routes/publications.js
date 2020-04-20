@@ -60,6 +60,7 @@ router.post('publications.create', '/', loadUserList, async (ctx) => {
   } catch (validationError) {
     await ctx.render('publications/new', {
       publication,
+      userList,
       errors: validationError.errors,
       submitPublicationPath: ctx.router.url('publications.create'),
     });
@@ -68,8 +69,10 @@ router.post('publications.create', '/', loadUserList, async (ctx) => {
 
 router.get('publications.edit', '/:id/edit', loadPublication, async (ctx) => {
   const { publication } = ctx.state;
+  const userList = await ctx.orm.user.findAll();
   await ctx.render('publications/edit', {
     publication,
+    userList,
     submitPublicationPath: ctx.router.url('publications.update', { id: publication.id }),
   });
 });
@@ -85,8 +88,10 @@ router.patch('publications.update', '/:id', loadPublication, async (ctx) => {
     });
     ctx.redirect(ctx.router.url('publications.list'));
   } catch (validationError) {
+    const userList = await ctx.orm.user.findAll();
     await ctx.render('publications/edit', {
       publication,
+      userList,
       errors: validationError.errors,
       submitPublicationPath: ctx.router.url('publications.update', { id: publication.id }),
     });
