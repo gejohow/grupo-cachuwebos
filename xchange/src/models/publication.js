@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here. This method receives a models parameter.
     publication.hasMany(models.comment);
     publication.belongsTo(models.user);
+    publication.belongsToMany(models.negotiation, {
+      through: 'publicationNegotiation',
+      as: 'negotiations',
+      foreignKey: 'publicationId',
+      otherKey: 'negotiationId',
+    });
   };
 
   return publication;

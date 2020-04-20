@@ -6,8 +6,14 @@ module.exports = (sequelize, DataTypes) => {
     objects2: DataTypes.STRING,
   }, {});
 
-  negotiation.associate = function associate() {
+  negotiation.associate = function associate(models) {
     // associations can be defined here. This method receives a models parameter.
+    negotiation.belongsToMany(models.publication, {
+      through: 'publicationNegotiation',
+      as: 'publications',
+      foreignKey: 'negotiationId',
+      otherKey: 'publicationId',
+    });
   };
 
   return negotiation;
