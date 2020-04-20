@@ -11,8 +11,8 @@
         <input type="submit" value="Delete" />
     </form>
 
-    <h2>Negotiation Publications</h2>
-    <% if (!negotiation.publications.length) { %>
+    <h2>Publication of <%= userOne.username %> in Negotiation</h2>
+    <% if (! publicationsIn1List.length) { %>
         <p>No results</p>
     <% } else { %>
         <table>
@@ -22,7 +22,33 @@
                 </tr>
             </thead>
             <tbody>
-                <% negotiation.publications.forEach((publication) => { %>
+                <%  publicationsIn1List.forEach((publication) => { %>
+                    <tr>
+                        <td><%= publication.name %></td>
+                        <td>
+                            <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <h2>Publication of <%= userTwo.username %> in Negotiation</h2>
+    <% if (!publicationsIn2List.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% publicationsIn2List.forEach((publication) => { %>
                     <tr>
                         <td><%= publication.name %></td>
                         <td>
@@ -61,7 +87,7 @@
     <% } %>
 
     <h2><%= userTwo.username %> Publications</h2>
-    <% if (!publicationsList2.length) { %>
+    <% if (!notpublications2List.length) { %>
         <p>No results</p>
     <% } else { %>
         <table>
@@ -71,7 +97,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% publicationsList2.forEach((publication) => { %>
+                <% notpublications2List.forEach((publication) => { %>
                     <tr>
                         <td><%= publication.name %></td>
                         <td>
