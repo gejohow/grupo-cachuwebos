@@ -1,3 +1,10 @@
+<script>
+  function val() {
+    d = document.getElementById('userOneId').value;
+    alert(d);
+  }
+</script>
+
 <div>
   <% if (locals.errors) { %>
     <div class="errors">
@@ -26,8 +33,8 @@
     <div class="field">
       <label for="userTwoId">Participante 2: </label>
       <select id="userTwoId" name="userTwoId">
-      <% for (i = 0; i < userList.length; i++) {%>
-        <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+      <% for (j = 0; j < userList.length; j++) {%>
+        <option value="<%- userList[j].id %>"><%- userList[j].username %></option>
       <% } %>
       </select>
     </div>
@@ -35,19 +42,19 @@
     <div class="field">
       <label for="objects1">Objetos Usuario 1</label>
       <select id="objects1" name="objects1">
-        <% publicationsList1.forEach((publication) => { %>
-          <option value="<%=publication.id %>"><%=publication.name %></option>
-          <% }) %>
-        </select>
+        <% publicationsList.forEach((publication) => { %>
+          <option value="<%=publication.id %>"><%= publication.name %></option>
+        <% }) %>
+      </select>
     </div>
 
     <div class="field">
       <label for="objects2">Objetos Usuario 2</label>
       <select id="objects2" name="objects2">
-        <% publicationsList2.forEach((publication) => { %>
-          <option value="<%=publication.id %>"><%=publication.name %></option>
-          <% }) %>
-        </select>
+        <% publicationsList.forEach((publication) => { %>
+          <option value="<%=publication.id %>"><%= publication.name %></option>
+        <% }) %>
+      </select>
     </div>
 
     <div  class="field">
