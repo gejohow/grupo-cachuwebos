@@ -1,7 +1,5 @@
 <div class="container">
     <h1> Negotiation </h1>
-    <% userOne = userList.find(x => x.id == negotiation.userOneId) %>
-    <% userTwo = userList.find(x => x.id == negotiation.userTwoId) %>
     <div id="container-view">
         <a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a>
         <h3><%= userOne.firstName %> <%= userOne.lastName %></h3>
@@ -12,6 +10,78 @@
         <input type="hidden" name="_method" value="delete" />
         <input type="submit" value="Delete" />
     </form>
+
+    <h2>Negotiation Publications</h2>
+    <% if (!negotiation.publications.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% negotiation.publications.forEach((publication) => { %>
+                    <tr>
+                        <td><%= publication.name %></td>
+                        <td>
+                            <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <h2><%= userOne.username %> Publications</h2>
+    <% if (!notpublications1List.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% notpublications1List.forEach((publication) => { %>
+                    <tr>
+                        <td><%= publication.name %></td>
+                        <td>
+                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <h2><%= userTwo.username %> Publications</h2>
+    <% if (!publicationsList2.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% publicationsList2.forEach((publication) => { %>
+                    <tr>
+                        <td><%= publication.name %></td>
+                        <td>
+                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
 
     <h2>Messages</h2>
     <% if (!messagesList.length) { %>
@@ -43,34 +113,4 @@
         </table>
     <% } %>
 
-    <h2>Publications not in negotiation</h2>
-    <% if (!publicationsList.length) { %>
-        <p>No results</p>
-    <% } else { %>
-        <table>
-            <thead>
-                <tr>
-
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th colspan= "2"> Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% publicationsList.forEach((publication) => { %>
-                    <tr>
-                        <td><%= publication.name %></td>
-                        <td>
-                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    <% } %>
 </div>

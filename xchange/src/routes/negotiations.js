@@ -31,6 +31,37 @@ async function loadPublicationsList(ctx, next) {
   return next();
 }
 
+async function loadNotPublications1List(ctx, next) {
+  ctx.state.notpublications1List = [];
+  const negotiation = await ctx.orm.negotiation.findByPk(ctx.params.id, {
+    include: [{
+      model: ctx.orm.publication,
+      as: 'publications',
+      required: false,
+      // Pass in the Product attributes that you want to retrieve
+      attributes: ['id', 'name'],
+      through: {
+        // This block of code allows you to retrieve the properties of the join table
+        model: ctx.orm.publicationNegotiation,
+        as: 'publicationNegotiation',
+        attributes: ['qty'],
+      },
+    }],
+  });
+  const publicationsList1 = await ctx.orm.publication.findAll({
+    attributes: ['id', 'name'],
+    where: {
+      userId: negotiation.userOneId,
+    },
+  });
+  publicationsList1.forEach((publication) => {
+    if (!negotiation.publications.includes(publication)) {
+      ctx.state.notpublications1List.push(publication);
+    }
+  });
+  return next();
+}
+
 
 router.get('negotiations.list', '/', async (ctx) => {
   const negotiationsList = await ctx.orm.negotiation.findAll();
@@ -43,15 +74,31 @@ router.get('negotiations.list', '/', async (ctx) => {
   });
 });
 
-router.get('negotiations.view', '/:id/view', loadNegotiation, loadPublicationsList, loadUserList, async (ctx) => {
-  const { negotiation, publicationsList, userList } = ctx.state;
+router.get('negotiations.view', '/:id/view', loadNegotiation, loadUserList, loadNotPublications1List, async (ctx) => {
+  const { negotiation, userList, notPublications1List } = ctx.state;
   const messagesList = await ctx.orm.message.findAll({
     where: { negotiationId: negotiation.id },
   });
+  const publicationsList1 = await ctx.orm.publication.findAll({
+    where: {
+      userId: negotiation.userOneId,
+    },
+  });
+  const publicationsList2 = await ctx.orm.publication.findAll({
+    where: {
+      userId: negotiation.userTwoId,
+    },
+  });
+  const userOne = await ctx.orm.user.findByPk(negotiation.userOneId);
+  const userTwo = await ctx.orm.user.findByPk(negotiation.userTwoId);
   await ctx.render('negotiations/view', {
     negotiation,
-    publicationsList,
+    publicationsList1,
+    publicationsList2,
+    notPublications1List,
     userList,
+    userOne,
+    userTwo,
     editNegotiationPath: (editedNegotiation) => ctx.router.url('negotiations.edit', { id: editedNegotiation.id }),
     deleteNegotiationPath: (deletedNegotiation) => ctx.router.url('negotiations.delete', { id: deletedNegotiation.id }),
     deletePublicationPath: (publication) => ctx.router.url('negotiations.publication.delete', { id: negotiation.id, publicationId: publication.id }),
@@ -65,11 +112,21 @@ router.get('negotiations.view', '/:id/view', loadNegotiation, loadPublicationsLi
 
 router.get('negotiations.new', '/new', loadUserList, async (ctx) => {
   const negotiation = ctx.orm.negotiation.build();
-  const publicationsList = await ctx.orm.publication.findAll();
+  const publicationsList1 = await ctx.orm.publication.findAll({
+    where: {
+      userId: negotiation.userOneId,
+    },
+  });
+  const publicationsList2 = await ctx.orm.publication.findAll({
+    where: {
+      userId: negotiation.userTwoId,
+    },
+  });
   const { userList } = ctx.state;
   await ctx.render('negotiations/new', {
     negotiation,
-    publicationsList,
+    publicationsList1,
+    publicationsList2,
     userList,
     submitNegotiationPath: ctx.router.url('negotiations.create'),
   });
@@ -89,10 +146,20 @@ router.post('negotiations.create', '/', async (ctx) => {
     await publicationNegotiation2.save();
     ctx.redirect(ctx.router.url('negotiations.list'));
   } catch (validationError) {
-    const publicationsList = await ctx.orm.publication.findAll();
+    const publicationsList1 = await ctx.orm.publication.findAll({
+      where: {
+        userId: negotiation.userOneId,
+      },
+    });
+    const publicationsList2 = await ctx.orm.publication.findAll({
+      where: {
+        userId: negotiation.userTwoId,
+      },
+    });
     await ctx.render('negotiations/new', {
       negotiation,
-      publicationsList,
+      publicationsList1,
+      publicationsList2,
       errors: validationError.errors,
       submitNegotiationPath: ctx.router.url('negotiations.create'),
     });
@@ -101,10 +168,20 @@ router.post('negotiations.create', '/', async (ctx) => {
 
 router.get('negotiations.edit', '/:id/edit', loadNegotiation, loadUserList, async (ctx) => {
   const { negotiation, userList } = ctx.state;
-  const publicationsList = await ctx.orm.publication.findAll();
+  const publicationsList1 = await ctx.orm.publication.findAll({
+    where: {
+      userId: negotiation.userOneId,
+    },
+  });
+  const publicationsList2 = await ctx.orm.publication.findAll({
+    where: {
+      userId: negotiation.userTwoId,
+    },
+  });
   await ctx.render('negotiations/edit', {
     negotiation,
-    publicationsList,
+    publicationsList1,
+    publicationsList2,
     userList,
     submitNegotiationPath: ctx.router.url('negotiations.update', { id: negotiation.id }),
   });
@@ -129,10 +206,20 @@ router.patch('negotiations.update', '/:id', loadNegotiation, loadUserList, async
     await publicationNegotiation2.save();
     ctx.redirect(ctx.router.url('negotiations.list'));
   } catch (validationError) {
-    const publicationsList = await ctx.orm.publication.findAll();
+    const publicationsList1 = await ctx.orm.publication.findAll({
+      where: {
+        userId: negotiation.userOneId,
+      },
+    });
+    const publicationsList2 = await ctx.orm.publication.findAll({
+      where: {
+        userId: negotiation.userTwoId,
+      },
+    });
     await ctx.render('negotiations/edit', {
       negotiation,
-      publicationsList,
+      publicationsList1,
+      publicationsList2,
       userList,
       errors: validationError.errors,
       submitNegotiationPath: ctx.router.url('negotiations.update', { id: negotiation.id }),
@@ -231,13 +318,17 @@ router.del(
   },
 );
 
-router.del('negotiations.publication.add', '/:id/publications/:publicationId', loadNegotiation, async (ctx) => {
+router.get('negotiations.publication.add', '/:id/publications/:publicationId', loadNegotiation, async (ctx) => {
   const publicationNegotiation = ctx.orm.publicationNegotiation.build();
   const { negotiation } = ctx.state;
   publicationNegotiation.publicationId = ctx.params.publicationId;
   publicationNegotiation.negotiationId = negotiation.id;
-  await publicationNegotiation.save();
-  ctx.redirect(ctx.router.url('negotiations.view', { id: ctx.params.id }));
+  try {
+    await publicationNegotiation.save();
+    ctx.redirect(ctx.router.url('negotiations.view', { id: ctx.params.id }));
+  } catch (validationError) {
+    ctx.redirect(ctx.router.url('negotiations.view', { id: ctx.params.id }));
+  }
 });
 
 module.exports = router;

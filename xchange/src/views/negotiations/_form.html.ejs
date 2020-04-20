@@ -35,7 +35,7 @@
     <div class="field">
       <label for="objects1">Objetos Usuario 1</label>
       <select id="objects1" name="objects1">
-        <% publicationsList.forEach((publication) => { %>
+        <% publicationsList1.forEach((publication) => { %>
           <option value="<%=publication.id %>"><%=publication.name %></option>
           <% }) %>
         </select>
@@ -44,7 +44,7 @@
     <div class="field">
       <label for="objects2">Objetos Usuario 2</label>
       <select id="objects2" name="objects2">
-        <% publicationsList.forEach((publication) => { %>
+        <% publicationsList2.forEach((publication) => { %>
           <option value="<%=publication.id %>"><%=publication.name %></option>
           <% }) %>
         </select>
@@ -59,3 +59,4 @@
     </div>
   </form>
 </div>
+
