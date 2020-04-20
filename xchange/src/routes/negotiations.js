@@ -205,6 +205,8 @@ router.get('negotiations.view', '/:id/view', loadNegotiation, loadUserList,
     });
     const userOne = await ctx.orm.user.findByPk(negotiation.userOneId);
     const userTwo = await ctx.orm.user.findByPk(negotiation.userTwoId);
+    const message = ctx.orm.message.build();
+    message.negotiationId = negotiation.id;
     await ctx.render('negotiations/view', {
       negotiation,
       notPublications1List,
@@ -214,14 +216,17 @@ router.get('negotiations.view', '/:id/view', loadNegotiation, loadUserList,
       userList,
       userOne,
       userTwo,
+      message,
+      negotiationId: negotiation.id,
       editNegotiationPath: (editedNegotiation) => ctx.router.url('negotiations.edit', { id: editedNegotiation.id }),
       deleteNegotiationPath: (deletedNegotiation) => ctx.router.url('negotiations.delete', { id: deletedNegotiation.id }),
       deletePublicationPath: (publication) => ctx.router.url('negotiations.publication.delete', { id: negotiation.id, publicationId: publication.id }),
       addPublicationPath: (publication) => ctx.router.url('negotiations.publication.add', { id: negotiation.id, publicationId: publication.id }),
       messagesList,
       newMessagePath: ctx.router.url('negotiations.messages.new', { id: negotiation.id }),
-      editMessagePath: (message) => ctx.router.url('negotiations.messages.edit', { id: negotiation.id, messageId: message.id }),
-      deleteMessagePath: (message) => ctx.router.url('negotiations.messages.delete', { id: negotiation.id, messageId: message.id }),
+      editMessagePath: (editMessage) => ctx.router.url('negotiations.messages.edit', { id: negotiation.id, messageId: editMessage.id }),
+      deleteMessagePath: (deleteMessage) => ctx.router.url('negotiations.messages.delete', { id: negotiation.id, messageId: deleteMessage.id }),
+      submitMessagePath: ctx.router.url('negotiations.messages.create', { id: negotiation.id }),
     });
   });
 
@@ -356,9 +361,9 @@ router.get('negotiations.messages.new', '/:id/messages', loadNegotiation, loadUs
 });
 
 
-router.post('negotiations.messages.create', '/:id', loadNegotiation, async (ctx) => {
+router.post('negotiations.messages.create', '/:id', loadNegotiation, loadUserList, async (ctx) => {
   const message = ctx.orm.message.build(ctx.request.body);
-  const { negotiation } = ctx.state;
+  const { negotiation, userList } = ctx.state;
   message.negotiationId = negotiation.id;
   try {
     await message.save({ fields: ['content', 'negotiationId', 'userId'] });
@@ -366,6 +371,7 @@ router.post('negotiations.messages.create', '/:id', loadNegotiation, async (ctx)
   } catch (validationError) {
     await ctx.render('messages/new', {
       message,
+      userList,
       negotiationId: negotiation.id,
       errors: validationError.errors,
       submitMessagePath: ctx.router.url('negotiations.messages.create', { id: negotiation.id }),
