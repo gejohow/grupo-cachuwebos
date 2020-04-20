@@ -32,15 +32,19 @@ router.get('users.view', '/:id/view', loadUser, loadUserList, async (ctx) => {
   const reviewsList = await ctx.orm.review.findAll({
     where: { userId: user.id },
   });
+  const review = ctx.orm.review.build();
+  review.userId = user.id;
   await ctx.render('users/view', {
     user,
     editUserPath: (editedUser) => ctx.router.url('users.edit', { id: editedUser.id }),
     deleteUserPath: (deletedUser) => ctx.router.url('users.delete', { id: deletedUser.id }),
     reviewsList,
     userList,
+    review,
     newReviewPath: ctx.router.url('users.reviews.new', { id: user.id }),
-    editReviewPath: (review) => ctx.router.url('users.reviews.edit', { id: user.id, reviewId: review.id }),
-    deleteReviewPath: (review) => ctx.router.url('users.reviews.delete', { id: user.id, reviewId: review.id }),
+    editReviewPath: (editReview) => ctx.router.url('users.reviews.edit', { id: user.id, reviewId: editReview.id }),
+    deleteReviewPath: (deletReview) => ctx.router.url('users.reviews.delete', { id: user.id, reviewId: deletReview.id }),
+    submitReviewPath: ctx.router.url('users.reviews.create', { id: user.id }),
   });
 });
 
