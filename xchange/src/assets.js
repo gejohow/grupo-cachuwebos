@@ -10,9 +10,10 @@ try {
 
 
 module.exports = function assetsBuilder(developmentMode) {
-  function assetPath(path) {
+  /***function assetPath(path) {
     return (!developmentMode && manifest && manifest[path]) || `/assets/${path}`;
   }
+  */
   return function assets(ctx, next) {
     ctx.state.assetPath = assetPath;
     return next();
