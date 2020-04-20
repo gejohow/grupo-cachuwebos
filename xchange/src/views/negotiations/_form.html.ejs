@@ -1,0 +1,61 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitNegotiationPath %>" method="post">
+    <% if (!negotiation.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+
+    <div class="field">
+      <label for="userOneId">Participante 1: </label>
+      <select id="userOneId" name="userOneId">
+      <% for (i = 0; i < userList.length; i++) {%>
+        <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+      <% } %>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="userTwoId">Participante 2: </label>
+      <select id="userTwoId" name="userTwoId">
+      <% for (i = 0; i < userList.length; i++) {%>
+        <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+      <% } %>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="objects1">Objetos Usuario 1</label>
+      <select id="objects1" name="objects1">
+        <% publicationsList.forEach((publication) => { %>
+          <option value="<%=publication.id %>"><%=publication.name %></option>
+          <% }) %>
+        </select>
+    </div>
+
+    <div class="field">
+      <label for="objects2">Objetos Usuario 2</label>
+      <select id="objects2" name="objects2">
+        <% publicationsList.forEach((publication) => { %>
+          <option value="<%=publication.id %>"><%=publication.name %></option>
+          <% }) %>
+        </select>
+    </div>
+
+    <div  class="field">
+      <% if (negotiation.isNewRecord) { %>
+        <input type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>

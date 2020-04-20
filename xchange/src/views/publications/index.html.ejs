@@ -1,0 +1,45 @@
+
+<div class="container">
+<h2>Publications</h2>
+<% if (!publicationsList.length) { %>
+    <p>No results</p>
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>State</th>
+                <th>Type</th>
+                <th>Created By</th>
+                <th colspan= "2"> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% publicationsList.forEach((publication) => { %>
+                <% user = userList.find(x => x.id == publication.userId) %>
+                <tr>
+                    <td>
+                        <a href="<%= viewPublicationPath(publication) %>">
+                        <img src="<%= assetPath('x-change 2.png') %>" alt="Logo", height="50" />
+                        </a>
+                    </td>
+                    <td><%= publication.name %></td>
+                    <td><%= publication.state %></td>
+                    <td><%= publication.type %></td>
+                    <td><%= user.firstName %> <%= user.lastName %></td>
+                    <td><button onclick="window.location.href='<%= editPublicationPath(publication) %>'">Edit</button></td>
+                    <td>
+                        <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                            <input type="hidden" name="_method" value="delete" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } %>
+
+<button onclick="window.location.href='<%= newPublicationPath %>'">New Publication</button>
+</div>

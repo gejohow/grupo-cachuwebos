@@ -1,0 +1,47 @@
+<div class="container">
+    <h1><%=publication.name%></h1>
+    <div id="container-view">
+        <a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a>
+        <h3><%= publication.description %></h3>
+        <h3><%= publication.state %></h3>
+        <h3><%= publication.type %></h3>
+        <button onclick="window.location.href='<%= editPublicationPath(publication) %>'">Edit</button>
+    </div>
+    <form action="<%= deletePublicationPath(publication) %>" method="POST">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" value="Delete" />
+    </form>
+
+    <h2>Comments</h2>
+    <% if (!commentsList.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th colspan= "2"> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% commentsList.forEach((comment) => { %>
+                    <tr>
+                        <td><%= comment.description %></td>
+                        <td><%= comment.updatedAt.toISOString().split('T')[0] %></td>
+                        <td><button onclick="window.location.href='<%= editCommentPath(comment) %>'">Edit</button></td>
+                        <td>
+                            <form action="<%= deleteCommentPath(comment) %>" method="POST">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } %>
+
+        
+    <button onclick="window.location.href='<%= newCommentPath %>'">New Comment</button>
+</div>

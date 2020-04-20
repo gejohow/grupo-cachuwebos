@@ -1,0 +1,76 @@
+<div class="container">
+    <h1> Negotiation </h1>
+    <% userOne = userList.find(x => x.id == negotiation.userOneId) %>
+    <% userTwo = userList.find(x => x.id == negotiation.userTwoId) %>
+    <div id="container-view">
+        <a ><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="100" /></a>
+        <h3><%= userOne.firstName %> <%= userOne.lastName %></h3>
+        <h3><%= userTwo.firstName %> <%= userTwo.lastName %></h3>
+        <button onclick="window.location.href='<%= editNegotiationPath(negotiation) %>'">Edit</button>
+    </div>
+    <form action="<%= deleteNegotiationPath(negotiation) %>" method="POST">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" value="Delete" />
+    </form>
+
+    <h2>Messages</h2>
+    <% if (!messagesList.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Date</th>
+                    <th colspan= "2"> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% messagesList.forEach((message) => { %>
+                    <tr>
+                        <td><%= message.content %></td>
+                        <td><%= message.updatedAt.toISOString().split('T')[0] %></td>
+                        <td><button onclick="window.location.href='<%= editMessagePath(message) %>'">Edit</button></td>
+                        <td>
+                            <form action="<%= deleteMessagePath(message) %>" method="POST">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <h2>Publications not in negotiation</h2>
+    <% if (!publicationsList.length) { %>
+        <p>No results</p>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th colspan= "2"> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% publicationsList.forEach((publication) => { %>
+                    <tr>
+                        <td><%= publication.name %></td>
+                        <td>
+                            <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
