@@ -1,0 +1,61 @@
+<div class="form">
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitUserPath %>" method="post">
+    <% if (!user.isNewRecord) { %>
+      <input class="form" type="hidden" name="_method" value="patch" />
+    <% } %>
+
+    <div class="field">
+      <label for="username">Username*</label>
+      <input class="form" type="text" name="username" value="<%= user.username %>" />
+    </div>
+
+    <div class="field">
+      <label for="firstname">First Name*</label>
+      <input class="form" type="text" name="firstName" value="<%= user.firstName %>" />
+    </div>
+
+    <div class="field">
+      <label for="lastname">Last name*</label>
+      <input class="form" type="text" name="lastName" value="<%= user.lastName %>" />
+    </div>
+
+    <div class="field">
+      <label for="password">Mail</label>
+      <input class="form" type="text" name="mail" value="<%= user.mail %>" />
+    </div>
+
+    <div class="field">
+      <label for="phonenumber">Phone Number</label>
+      <input class="form" type="number" name="phonenumber" value="<%= user.phonenumber %>" />
+    </div>
+
+    <div class="field">
+      <label for="address">Address</label>
+      <input class="form" type="text" name="address" value="<%= user.address %>" />
+    </div>
+
+    <div class="field">
+      <label for="password">Password*</label>
+      <input class="form" type="password" name="password" value="<%= user.password %>" />
+    </div>
+
+    <div>
+      <% if (user.isNewRecord){ %>
+          <input type="submit" name="create" value="Create" />
+      <%} else { %>
+          <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>
+

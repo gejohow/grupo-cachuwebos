@@ -1,4 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 html, body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  background-color: #1A3B5D;
+}
+* {
+  font-size: 100%;
+  font-family: "Montserrat", sans-serif;
+  color: #edf0f1;
+ }
+
+li,a{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: #edf0f1;
+  text-decoration: none;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2BA4CA;
+  padding:20px 30px;
+}
+
+.Logo{
+  cursor:pointer;
+}
+
+.nav_links{
+  list-style: none;
+}
+
+.nav_links li{
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.nav_links li a{
+  transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover{
+  color: #0088a9
+}
+
+form {
+  margin-top: 10px;
+  .field {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    label {
+      display: inline-block;
+      text-align: center;
+      vertical-align: top;
+      width: 100px;
+    }
+    textarea {
+      width: 40%;
+      height: 100px;
+      color: #1A3B5D;
+    }
+    select{
+      background-color:#0088a9;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      border:0 none;
+    }
+    option{
+      background-color:#0088a9;
+    }
+    input[type=text]{
+      color: #1A3B5D;
+    }
+    input[type=number]{
+      color: #1A3B5D;
+    }
+    input[type=password]{
+      color: #1A3B5D;
+    }
+  }
+}
+
+input[type=submit],button {
+  padding:5px 15px; 
+  background:#0088a9; 
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; 
+}
+
+table {
+  margin-top: 10px;
+  margin: 10px;
+  th {
+    background-color: #0088a9;
+    text-align: center;
+    padding:5px 30px; 
+  }
+  td {
+    padding: 5% 4%; ;
+  }
+}
+
+textarea {
+  width: 400px;
+  height: 150px;
+  color: #1A3B5D;
+}
+
+input[type=number]{
+  color: #1A3B5D;
+}
+
+.container {
+  margin-top: 60px;
+  margin-left: 20%;
+}
+
+#container-view {
+  display: flex;
+  flex-basis: auto;
+  align-self: center;
+  align-items: center;
+  h3{
+    margin: 10px;
+  }
+}
+
+#list-container {
+  display: flex;
+  flex-direction: row;
+  flex-basis: auto;
+  align-self: center;
+  align-items: start;
+  margin: 10px;
+  padding: 10px;
+  h3{
+    margin: 10px;
+  }
+}
+
+#container-table {
+  margin: 10px;
+  padding: 10px;
 }

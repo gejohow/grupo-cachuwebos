@@ -1,0 +1,40 @@
+<div>
+    <%if(locals.errors){ %>
+    <div class = "errors">
+        You need to fix the following errors:
+        <ul>
+            <% errors.forEach(error =>{ %>
+                <li><%= error.message %></li>
+            <% }) %>
+        </ul>
+    </div>
+    <% } %>
+    <form action="<%= submitReviewPath %>" method="post">
+        <% if (!review.isNewRecord){ %>
+            <input type="hidden" name="_method" value="patch" />
+        <% } %>
+        <div>
+            <label for="Description">Description</label>
+            <textarea type ="text" name="description" value="<%= review.description %>"></textarea>
+        </div>
+        <div>
+            <label for="Puntuation">Puntuation</label>
+            <input type ="number" step="0.5" min=0 max=5 name="puntuation"  value="<%= review.puntuation %>"></input>
+        </div>
+        <div class="field">
+            <label for="creatorId">Commented by: </label>
+            <select id="creatorId" name="creatorId">
+            <% for (i = 0; i < userList.length; i++) {%>
+                <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+            <% } %>
+            </select>
+        </div>
+        <div>
+            <% if (review.isNewRecord){ %>
+                <input type="submit" name="create" value="Create" />
+            <%} else { %>
+                <input type="submit" name="update" value="Update" />
+            <% } %>
+        </div>
+    </form>
+</div> 

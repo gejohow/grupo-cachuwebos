@@ -1,0 +1,42 @@
+<div class="container">
+  
+  <h2>Negotiations</h2>
+  <% if (!negotiationsList.length) { %>
+    <p>No results</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>User1</th>
+          <th>User2</th>
+          <th>Objects1</th>
+          <th>Objects2</th>
+          <th colspan="3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% negotiationsList.forEach((negotiation) => { %>
+          <% userOne = userList.find(x => x.id == negotiation.userOneId) %>
+          <% userTwo = userList.find(x => x.id == negotiation.userTwoId) %>
+          <tr>
+            <td><%= userOne.firstName %> <%= userOne.lastName %></td>
+            <td><%= userTwo.firstName %> <%= userTwo.lastName %></td>
+            <td><%= negotiation.objects1 %></td>
+            <td><%= negotiation.objects2 %></td>
+            
+            <td><button onclick="window.location.href='<%= editNegotiationPath(negotiation) %>'">Edit</button></td>
+            <td><button onclick="window.location.href='<%= viewNegotiationPath(negotiation) %>'">View</button></td>
+            <td>
+              <form action="<%= deleteNegotiationPath(negotiation) %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" />
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <a href="<%= newNegotiationPath %>">New Negotiation</a>
+</div>
