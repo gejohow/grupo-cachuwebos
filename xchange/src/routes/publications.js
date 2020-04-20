@@ -142,13 +142,14 @@ router.post('publications.comments.create', '/:id', loadPublication, loadUserLis
   }
 });
 
-router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPublication, async (ctx) => {
-  const { publication } = ctx.state;
+router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPublication, loadUserList, async (ctx) => {
+  const { publication, userList } = ctx.state;
   const comment = await ctx.orm.comment.findOne({
     where: { id: ctx.params.commentId },
   });
   await ctx.render('comments/edit', {
     comment,
+    userList,
     publicationId: publication.id,
     submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: comment.id }),
   });

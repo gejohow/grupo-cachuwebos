@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>Content</th>
+                <th>Message by:</th>
                 <th colspan= "2"> Actions</th>
             </tr>
         </thead>
@@ -13,6 +14,7 @@
             <% messagesList.forEach((message) => { %>
                 <tr>
                     <td><%= message.content %></td>
+                    <td><%=  %></td>
                     <td><a  href="<%= editMessagePath(message) %>">Edit</a></td>
                     <td>
                         <form action="<%= deleteMessagePath(message) %>" method="POST">

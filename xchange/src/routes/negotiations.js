@@ -179,10 +179,12 @@ async function loadPublicationsIn2List(ctx, next) {
   return next();
 }
 
-router.get('negotiations.list', '/', async (ctx) => {
+router.get('negotiations.list', '/', loadUserList, async (ctx) => {
   const negotiationsList = await ctx.orm.negotiation.findAll();
+  const{ userList } = ctx.state;
   await ctx.render('negotiations/index', {
     negotiationsList,
+    userList,
     newNegotiationPath: ctx.router.url('negotiations.new'),
     editNegotiationPath: (negotiation) => ctx.router.url('negotiations.edit', { id: negotiation.id }),
     deleteNegotiationPath: (negotiation) => ctx.router.url('negotiations.delete', { id: negotiation.id }),
@@ -223,8 +225,9 @@ router.get('negotiations.view', '/:id/view', loadNegotiation, loadUserList,
     });
   });
 
-router.get('negotiations.new', '/new', loadUserList, async (ctx) => {
+router.get('negotiations.new', '/new', loadUserList, loadPublicationsList, async (ctx) => {
   const negotiation = ctx.orm.negotiation.build();
+  /**
   const publicationsList1 = await ctx.orm.publication.findAll({
     where: {
       userId: negotiation.userOneId,
@@ -235,20 +238,21 @@ router.get('negotiations.new', '/new', loadUserList, async (ctx) => {
       userId: negotiation.userTwoId,
     },
   });
-  const { userList } = ctx.state;
+  */
+  const { userList, publicationsList } = ctx.state;
   await ctx.render('negotiations/new', {
     negotiation,
-    publicationsList1,
-    publicationsList2,
     userList,
+    publicationsList,
     submitNegotiationPath: ctx.router.url('negotiations.create'),
   });
 });
 
-router.post('negotiations.create', '/', async (ctx) => {
+router.post('negotiations.create', '/', loadUserList, loadPublicationsList, async (ctx) => {
   const negotiation = ctx.orm.negotiation.build(ctx.request.body);
   const publicationNegotiation1 = ctx.orm.publicationNegotiation.build();
   const publicationNegotiation2 = ctx.orm.publicationNegotiation.build();
+  const { userList, publicationsList } = ctx.state;
   try {
     await negotiation.save({ fields: ['userOneId', 'userTwoId', 'objects1', 'objects2'] });
     publicationNegotiation1.publicationId = ctx.request.body.objects1;
@@ -259,42 +263,22 @@ router.post('negotiations.create', '/', async (ctx) => {
     await publicationNegotiation2.save();
     ctx.redirect(ctx.router.url('negotiations.list'));
   } catch (validationError) {
-    const publicationsList1 = await ctx.orm.publication.findAll({
-      where: {
-        userId: negotiation.userOneId,
-      },
-    });
-    const publicationsList2 = await ctx.orm.publication.findAll({
-      where: {
-        userId: negotiation.userTwoId,
-      },
-    });
+    console.log(validationError);
     await ctx.render('negotiations/new', {
       negotiation,
-      publicationsList1,
-      publicationsList2,
+      userList,
+      publicationsList,
       errors: validationError.errors,
       submitNegotiationPath: ctx.router.url('negotiations.create'),
     });
   }
 });
 
-router.get('negotiations.edit', '/:id/edit', loadNegotiation, loadUserList, async (ctx) => {
-  const { negotiation, userList } = ctx.state;
-  const publicationsList1 = await ctx.orm.publication.findAll({
-    where: {
-      userId: negotiation.userOneId,
-    },
-  });
-  const publicationsList2 = await ctx.orm.publication.findAll({
-    where: {
-      userId: negotiation.userTwoId,
-    },
-  });
+router.get('negotiations.edit', '/:id/edit', loadNegotiation, loadUserList, loadPublicationsList, async (ctx) => {
+  const { negotiation, userList, publicationsList } = ctx.state;
   await ctx.render('negotiations/edit', {
     negotiation,
-    publicationsList1,
-    publicationsList2,
+    publicationsList,
     userList,
     submitNegotiationPath: ctx.router.url('negotiations.update', { id: negotiation.id }),
   });
@@ -360,11 +344,12 @@ async function loadMessage(ctx, next) {
   return next();
 }
 
-router.get('negotiations.messages.new', '/:id/messages', loadNegotiation, async (ctx) => {
+router.get('negotiations.messages.new', '/:id/messages', loadNegotiation, loadUserList, async (ctx) => {
   const message = ctx.orm.message.build();
-  const { negotiation } = ctx.state;
+  const { negotiation, userList } = ctx.state;
   await ctx.render('/messages/new', {
     message,
+    userList,
     negotiationId: negotiation.id,
     submitMessagePath: ctx.router.url('negotiations.messages.create', { id: negotiation.id }),
   });

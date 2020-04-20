@@ -16,9 +16,11 @@
       </thead>
       <tbody>
         <% negotiationsList.forEach((negotiation) => { %>
+          <% userOne = userList.find(x => x.id == negotiation.userOneId) %>
+          <% userTwo = userList.find(x => x.id == negotiation.userTwoId) %>
           <tr>
-            <td><%= negotiation.userOneId %></td>
-            <td><%= negotiation.userTwoId %></td>
+            <td><%= userOne.firstName %> <%= userOne.lastName %></td>
+            <td><%= userTwo.firstName %> <%= userTwo.lastName %></td>
             <td><%= negotiation.objects1 %></td>
             <td><%= negotiation.objects2 %></td>
             <td><a href="<%= editNegotiationPath(negotiation) %>">Edit</a></td>
