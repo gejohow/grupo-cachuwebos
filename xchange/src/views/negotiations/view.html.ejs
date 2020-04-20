@@ -17,6 +17,8 @@
     <% } else { %>
         <table>
             <thead>
+                <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
@@ -24,6 +26,7 @@
             <tbody>
                 <%  publicationsIn1List.forEach((publication) => { %>
                     <tr>
+                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
                         <td><%= publication.name %></td>
                         <td>
                             <form action="<%= deletePublicationPath(publication) %>" method="POST">
@@ -43,6 +46,8 @@
     <% } else { %>
         <table>
             <thead>
+                <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
@@ -50,6 +55,7 @@
             <tbody>
                 <% publicationsIn2List.forEach((publication) => { %>
                     <tr>
+                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
                         <td><%= publication.name %></td>
                         <td>
                             <form action="<%= deletePublicationPath(publication) %>" method="POST">
@@ -69,6 +75,8 @@
     <% } else { %>
         <table>
             <thead>
+                <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
@@ -76,6 +84,7 @@
             <tbody>
                 <% notpublications1List.forEach((publication) => { %>
                     <tr>
+                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
                         <td><%= publication.name %></td>
                         <td>
                             <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
@@ -92,6 +101,8 @@
     <% } else { %>
         <table>
             <thead>
+                <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
@@ -99,6 +110,7 @@
             <tbody>
                 <% notpublications2List.forEach((publication) => { %>
                     <tr>
+                        <td><img src="<%= assetPath('Logo.jpg') %>" alt="Logo", height="80" /></td>
                         <td><%= publication.name %></td>
                         <td>
                             <button onclick="window.location.href='<%= addPublicationPath(publication) %>'">Add</button>
