@@ -17,8 +17,8 @@
       <tbody>
         <% negotiationsList.forEach((negotiation) => { %>
           <tr>
-            <td><%= negotiation.user1 %></td>
-            <td><%= negotiation.user2 %></td>
+            <td><%= negotiation.userOneId %></td>
+            <td><%= negotiation.userTwoId %></td>
             <td><%= negotiation.objects1 %></td>
             <td><%= negotiation.objects2 %></td>
             <td><a href="<%= editNegotiationPath(negotiation) %>">Edit</a></td>
