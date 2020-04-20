@@ -5,14 +5,14 @@
     <table>
         <thead>
             <tr>
-                <th>Description</th>
+                <th>Content</th>
                 <th colspan= "2"> Actions</th>
             </tr>
         </thead>
         <tbody>
             <% messagesList.forEach((message) => { %>
                 <tr>
-                    <td><%= message.description %></td>
+                    <td><%= message.content %></td>
                     <td><a  href="<%= editMessagePath(message) %>">Edit</a></td>
                     <td>
                         <form action="<%= deleteMessagePath(message) %>" method="POST">

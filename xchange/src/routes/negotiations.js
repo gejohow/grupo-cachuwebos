@@ -176,7 +176,7 @@ router.post('negotiations.messages.create', '/:id', loadNegotiation, async (ctx)
   const { negotiation } = ctx.state;
   message.negotiationId = negotiation.id;
   try {
-    await message.save({ fields: ['description', 'negotiationId', 'userId'] });
+    await message.save({ fields: ['content', 'negotiationId', 'userId'] });
     ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
   } catch (validationError) {
     await ctx.render('messages/new', {
@@ -207,8 +207,8 @@ router.patch('negotiations.messages.update', '/:id/messages/:messageId', loadNeg
   });
   message.negotiationId = negotiation.id;
   try {
-    const { description } = ctx.request.body;
-    await message.update({ description });
+    const { content } = ctx.request.body;
+    await message.update({ content });
     ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
   } catch (validationError) {
     await ctx.render('messages/edit', {
