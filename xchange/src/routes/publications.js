@@ -37,8 +37,8 @@ router.get('publications.view', '/:id/view', loadPublication, loadUserList, asyn
     userList,
     commentsList,
     newCommentPath: ctx.router.url('publications.comments.new', { id: publication.id }),
-    editCommentPath: (comment) => ctx.router.url('publications.comments.edit', { id: publication.id, commentId: comment.id }),
-    deleteCommentPath: (comment) => ctx.router.url('publications.comments.delete', { id: publication.id, commentId: comment.id }),
+    editCommentPath: (editComment) => ctx.router.url('publications.comments.edit', { id: publication.id, commentId: editComment.id }),
+    deleteCommentPath: (deleteComment) => ctx.router.url('publications.comments.delete', { id: publication.id, commentId: deleteComment.id }),
   });
 });
 
