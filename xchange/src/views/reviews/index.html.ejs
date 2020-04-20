@@ -18,7 +18,7 @@
                     <td><%= review.description %></td>
                     <td><%= review.puntuation %></td>
                     <td><%= user.firstName %> <%= user.lastName %></td>
-                    <td><a  href="<%= editReviewPath(review) %>">Edit</a></td>
+                    <td><button onclick="window.location.href='<%= editReviewPath(review) %>'">Edit</button></td>
                     <td>
                         <form action="<%= deleteReviewPath(review) %>" method="POST">
                             <input type="hidden" name="_method" value="delete" />
