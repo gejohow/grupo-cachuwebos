@@ -5,13 +5,21 @@
         <h3><%= publication.description %></h3>
         <h3><%= publication.state %></h3>
         <h3><%= publication.type %></h3>
-        <button onclick="window.location.href='<%= editPublicationPath(publication) %>'">Edit</button>
+    
+        <div class="container">
+            <tr>
+            <button onclick="window.location.href='<%= editPublicationPath(publication) %>'">Edit</button>
+            <form action="<%= deletePublicationPath(publication) %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" />
+            </form>
+            </tr>
+        </div>
+        
     </div>
-    <form action="<%= deletePublicationPath(publication) %>" method="POST">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Delete" />
-    </form>
+
     <button onclick="window.location.href='<%= newNegotiationPath %>'">Negotiation</button>
+
 
     <h2>Comments</h2>
     <% if (!commentsList.length) { %>

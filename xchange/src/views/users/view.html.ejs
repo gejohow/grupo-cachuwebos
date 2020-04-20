@@ -4,7 +4,8 @@
         
         <p>Acá irá información del usuario</p>
         
-        <a  href="<%= editUserPath(user) %>">Edit</a>
+        <button onclick="window.location.href='<%= editUserPath(user) %>'">Edit</button>
+        
         <form action="<%= deleteUserPath(user) %>" method="POST">
             <input type="hidden" name="_method" value="delete" />
             <input type="submit" value="Delete" />

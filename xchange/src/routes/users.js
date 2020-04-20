@@ -38,6 +38,7 @@ router.get('users.view', '/:id/view', loadUser, loadUserList, async (ctx) => {
     user,
     editUserPath: (editedUser) => ctx.router.url('users.edit', { id: editedUser.id }),
     deleteUserPath: (deletedUser) => ctx.router.url('users.delete', { id: deletedUser.id }),
+    newUserPath: ctx.router.url('users.new'),
     reviewsList,
     userList,
     review,

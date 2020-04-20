@@ -23,8 +23,9 @@
             <td><%= userTwo.firstName %> <%= userTwo.lastName %></td>
             <td><%= negotiation.objects1 %></td>
             <td><%= negotiation.objects2 %></td>
-            <td><a href="<%= editNegotiationPath(negotiation) %>">Edit</a></td>
-            <td><a href="<%= viewNegotiationPath(negotiation) %>">View</a></td>
+            
+            <td><button onclick="window.location.href='<%= editNegotiationPath(negotiation) %>'">Edit</button></td>
+            <td><button onclick="window.location.href='<%= viewNegotiationPath(negotiation) %>'">View</button></td>
             <td>
               <form action="<%= deleteNegotiationPath(negotiation) %>" method="POST">
                 <input type="hidden" name="_method" value="delete" />
