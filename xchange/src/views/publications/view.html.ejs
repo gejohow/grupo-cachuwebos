@@ -21,14 +21,17 @@
                 <tr>
                     <th>Description</th>
                     <th>Date</th>
+                    <th>Commented by</th>
                     <th colspan= "2"> Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <% commentsList.forEach((comment) => { %>
+                    <% user = userList.find(x => x.id == comment.userId) %>
                     <tr>
                         <td><%= comment.description %></td>
                         <td><%= comment.updatedAt.toISOString().split('T')[0] %></td>
+                        <td><%= user.firstName %> <%= user.lastName %></td>
                         <td><button onclick="window.location.href='<%= editCommentPath(comment) %>'">Edit</button></td>
                         <td>
                             <form action="<%= deleteCommentPath(comment) %>" method="POST">
