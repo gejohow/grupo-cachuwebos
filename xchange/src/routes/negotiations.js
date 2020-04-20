@@ -398,8 +398,8 @@ router.patch('negotiations.messages.update', '/:id/messages/:messageId', loadNeg
   });
   message.negotiationId = negotiation.id;
   try {
-    const { content } = ctx.request.body;
-    await message.update({ content });
+    const { content, userId } = ctx.request.body;
+    await message.update({ content, userId });
     ctx.redirect(ctx.router.url('negotiations.view', { id: negotiation.id }));
   } catch (validationError) {
     await ctx.render('messages/edit', {
