@@ -5,11 +5,14 @@
         <h3><%= userOne.firstName %> <%= userOne.lastName %></h3>
         <h3><%= userTwo.firstName %> <%= userTwo.lastName %></h3>
         <button onclick="window.location.href='<%= editNegotiationPath(negotiation) %>'">Edit</button>
+        <form action="<%= deleteNegotiationPath(negotiation) %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete" />
+        </form>
+        
     </div>
-    <form action="<%= deleteNegotiationPath(negotiation) %>" method="POST">
-        <input type="hidden" name="_method" value="delete" />
-        <input type="submit" value="Delete" />
-    </form>
+    
+
 
     <div id="list-container">
         <div id ="container-table">
