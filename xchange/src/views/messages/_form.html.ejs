@@ -1,0 +1,36 @@
+<div>
+    <%if(locals.errors){ %>
+    <div class = "errors">
+        You need to fix the following errors:
+        <ul>
+            <% errors.forEach(error =>{ %>
+                <li><%= error.message %></li>
+            <% }) %>
+        </ul>
+    </div>
+    <% } %>
+    <div class="field">
+        <label for="userId">Published by: </label>
+        <select id="userId" name="userId">
+        <% for (i = 0; i < userList.length; i++) {%>
+            <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+        <% } %>
+        </select>
+    </div>
+    <form action="<%= submitMessagePath %>" method="post">
+        <% if (!message.isNewRecord){ %>
+            <input type="hidden" name="_method" value="patch" />
+        <% } %>
+        <div>
+            <label for="Description">Description</label>
+            <textarea type ="text" name="description"><%= message.description %></textarea>
+        </div>
+        <div>
+            <% if (message.isNewRecord){ %>
+                <input type="submit" name="create" value="Create" />
+            <%} else { %>
+                <input type="submit" name="update" value="Update" />
+            <% } %>
+        </div>
+    </form>
+</div> 

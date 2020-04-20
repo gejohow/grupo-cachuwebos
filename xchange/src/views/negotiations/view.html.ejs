@@ -39,6 +39,37 @@
             </tbody>
         </table>
         <% } %>
+
+        <h2>Messages</h2>
+        <% if (!messagessList.length) { %>
+            <p>No results</p>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th colspan= "2"> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% messagesList.forEach((message) => { %>
+                        <tr>
+                            <td><%= message.description %></td>
+                            <td><%= message.updatedAt.toISOString().split('T')[0] %></td>
+                            <td><button onclick="window.location.href='<%= editMessagePath(message) %>'">Edit</button></td>
+                            <td>
+                                <form action="<%= deleteMessagePath(message) %>" method="POST">
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <input type="submit" value="Delete" />
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+
         <h2>Publications not in negotiation</h2>
         <% if (!publicationsList.length) { %>
             <p>No results</p>
@@ -46,6 +77,23 @@
             <table>
                 <thead>
                     <tr>
+
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th colspan= "2"> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% messagesList.forEach((message) => { %>
+                        <tr>
+                            <td><%= message.description %></td>
+                            <td><%= message.updatedAt.toISOString().split('T')[0] %></td>
+                            <td><button onclick="window.location.href='<%= editMessagePath(message) %>'">Edit</button></td>
+                            <td>
+                                <form action="<%= deleteMessagePath(message) %>" method="POST">
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <input type="submit" value="Delete" />
+                                </form>
                         <th>Name</th>
                         <th>Action</th>
                     </tr>
@@ -62,4 +110,5 @@
                 </tbody>
             </table>
             <% } %>
+
 </div>

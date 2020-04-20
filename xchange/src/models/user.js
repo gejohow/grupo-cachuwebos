@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here. This method receives a models parameter.
     user.hasMany(models.review);
     user.hasMany(models.publication);
+    user.hasMany(models.message);
   };
 
   return user;
