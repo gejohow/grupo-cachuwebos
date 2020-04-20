@@ -17,6 +17,14 @@
             <label for="Description">Description</label>
             <textarea type ="text" name="description"><%= comment.description %></textarea>
         </div>
+        <div class="field">
+            <label for="userId">Commented by: </label>
+            <select id="userId" name="userId">
+            <% for (i = 0; i < userList.length; i++) {%>
+                <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+            <% } %>
+            </select>
+        </div>
         <div>
             <% if (comment.isNewRecord){ %>
                 <input type="submit" name="create" value="Create" />

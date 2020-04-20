@@ -25,8 +25,8 @@ router.get('publications.list', '/', loadUserList, async (ctx) => {
   });
 });
 
-router.get('publications.view', '/:id/view', loadPublication, async (ctx) => {
-  const { publication } = ctx.state;
+router.get('publications.view', '/:id/view', loadPublication, loadUserList, async (ctx) => {
+  const { publication, userList } = ctx.state;
   const commentsList = await ctx.orm.comment.findAll({
     where: { publicationId: publication.id },
   });
@@ -34,6 +34,7 @@ router.get('publications.view', '/:id/view', loadPublication, async (ctx) => {
     publication,
     editPublicationPath: (editedPublication) => ctx.router.url('publications.edit', { id: editedPublication.id }),
     deletePublicationPath: (deletedPublication) => ctx.router.url('publications.delete', { id: deletedPublication.id }),
+    userList,
     commentsList,
     newCommentPath: ctx.router.url('publications.comments.new', { id: publication.id }),
     editCommentPath: (comment) => ctx.router.url('publications.comments.edit', { id: publication.id, commentId: comment.id }),
@@ -111,27 +112,29 @@ async function loadComment(ctx, next) {
   return next();
 }
 
-router.get('publications.comments.new', '/:id/comments', loadPublication, async (ctx) => {
+router.get('publications.comments.new', '/:id/comments', loadPublication, loadUserList, async (ctx) => {
   const comment = ctx.orm.comment.build();
-  const { publication } = ctx.state;
+  const { publication, userList } = ctx.state;
   await ctx.render('/comments/new', {
     comment,
+    userList,
     publicationId: publication.id,
     submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
   });
 });
 
 
-router.post('publications.comments.create', '/:id', loadPublication, async (ctx) => {
+router.post('publications.comments.create', '/:id', loadPublication, loadUserList, async (ctx) => {
   const comment = ctx.orm.comment.build(ctx.request.body);
-  const { publication } = ctx.state;
+  const { publication, userList } = ctx.state;
   comment.publicationId = publication.id;
   try {
-    await comment.save({ fields: ['description', 'publicationId'] });
+    await comment.save({ fields: ['description', 'publicationId', 'userId'] });
     ctx.redirect(ctx.router.url('publications.view', { id: publication.id }));
   } catch (validationError) {
     await ctx.render('comments/new', {
       comment,
+      userList,
       publicationId: publication.id,
       errors: validationError.errors,
       submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
