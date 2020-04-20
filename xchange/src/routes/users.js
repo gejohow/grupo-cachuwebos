@@ -9,6 +9,12 @@ async function loadUser(ctx, next) {
 	return next();
 }
 
+async function loadUserList(ctx, next) {
+  ctx.state.userList = await ctx.orm.user.findAll();
+  return next();
+}
+
+
 router.get('users.list', '/', async (ctx) => {
 	const usersList = await ctx.orm.user.findAll();
   await ctx.render('users/index', {
@@ -21,8 +27,8 @@ router.get('users.list', '/', async (ctx) => {
 });
 
 
-router.get('users.view', '/:id/view', loadUser, async (ctx) => {
-	const { user } = ctx.state;
+router.get('users.view', '/:id/view', loadUser, loadUserList, async (ctx) => {
+	const { user, userList } = ctx.state;
   const reviewsList = await ctx.orm.review.findAll({
     where: {userId: user.id},
   });
@@ -31,6 +37,7 @@ router.get('users.view', '/:id/view', loadUser, async (ctx) => {
     editUserPath: (editedUser) => ctx.router.url('users.edit', { id: editedUser.id }),
     deleteUserPath: (deletedUser) => ctx.router.url('users.delete', { id: deletedUser.id }),
     reviewsList,
+    userList,
     newReviewPath: ctx.router.url('users.reviews.new', { id: user.id }),
     editReviewPath: (review) => ctx.router.url('users.reviews.edit', { id: user.id, reviewId: review.id }),
     deleteReviewPath: (review) => ctx.router.url('users.reviews.delete', { id: user.id, reviewId: review.id }),
@@ -108,23 +115,24 @@ async function loadReview(ctx, next) {
   return next();
 }
 
-router.get('users.reviews.new', '/:id/reviews/new', loadUser, async (ctx) => {
+router.get('users.reviews.new', '/:id/reviews/new', loadUser, loadUserList, async (ctx) => {
   const review = ctx.orm.review.build();
-  const { user } = ctx.state;
+  const { user, userList } = ctx.state;
   review.userId = user.id;
   await ctx.render('reviews/new', {
     review,
+    userList,
     userId: user.id,
     submitReviewPath: ctx.router.url('users.reviews.create', { id: user.id }),
   });
 });
 
-router.post('users.reviews.create', '/:id', loadUser, async (ctx) => {
+router.post('users.reviews.create', '/:id', loadUser, loadUserList, async (ctx) => {
   const review = ctx.orm.review.build(ctx.request.body);
-  const { user } = ctx.state;
+  const { user, userList } = ctx.state;
   review.userId = user.id;
   try {
-    await review.save({ fields: ['description', 'puntuation', 'userId'] });
+    await review.save({ fields: ['description', 'puntuation', 'userId', 'creatorId'] });
     ctx.redirect(ctx.router.url('users.view', { id: user.id }));
   } catch (validationError) {
     await ctx.render('reviews/new', {
