@@ -344,11 +344,12 @@ async function loadMessage(ctx, next) {
   return next();
 }
 
-router.get('negotiations.messages.new', '/:id/messages', loadNegotiation, async (ctx) => {
+router.get('negotiations.messages.new', '/:id/messages', loadNegotiation, loadUserList, async (ctx) => {
   const message = ctx.orm.message.build();
-  const { negotiation } = ctx.state;
+  const { negotiation, userList } = ctx.state;
   await ctx.render('/messages/new', {
     message,
+    userList,
     negotiationId: negotiation.id,
     submitMessagePath: ctx.router.url('negotiations.messages.create', { id: negotiation.id }),
   });
