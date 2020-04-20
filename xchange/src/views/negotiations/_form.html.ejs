@@ -13,13 +13,23 @@
     <% if (!negotiation.isNewRecord) { %>
       <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <div  class="field">
-      <label for="user1">User1</label>
-      <input type="text" name="user1" value="<%= negotiation.user1 %>" />
+
+    <div class="field">
+      <label for="userOneId">Participante 1: </label>
+      <select id="userOneId" name="userOneId">
+      <% for (i = 0; i < userList.length; i++) {%>
+        <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+      <% } %>
+      </select>
     </div>
-    <div  class="field">
-      <label for="user2">User2</label>
-      <input type="text" name="user2" value="<%= negotiation.user2 %>" />
+
+    <div class="field">
+      <label for="userTwoId">Participante 2: </label>
+      <select id="userTwoId" name="userTwoId">
+      <% for (i = 0; i < userList.length; i++) {%>
+        <option value="<%- userList[i].id %>"><%- userList[i].username %></option>
+      <% } %>
+      </select>
     </div>
 
     <div class="field">
