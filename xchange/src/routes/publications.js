@@ -30,15 +30,18 @@ router.get('publications.view', '/:id/view', loadPublication, loadUserList, asyn
   const commentsList = await ctx.orm.comment.findAll({
     where: { publicationId: publication.id },
   });
+  const comment = ctx.orm.comment.build();
   await ctx.render('publications/view', {
     publication,
     editPublicationPath: (editedPublication) => ctx.router.url('publications.edit', { id: editedPublication.id }),
     deletePublicationPath: (deletedPublication) => ctx.router.url('publications.delete', { id: deletedPublication.id }),
     userList,
+    comment,
     commentsList,
     newCommentPath: ctx.router.url('publications.comments.new', { id: publication.id }),
     editCommentPath: (editComment) => ctx.router.url('publications.comments.edit', { id: publication.id, commentId: editComment.id }),
     deleteCommentPath: (deleteComment) => ctx.router.url('publications.comments.delete', { id: publication.id, commentId: deleteComment.id }),
+    submitCommentPath: ctx.router.url('publications.comments.create', { id: publication.id }),
   });
 });
 
@@ -155,8 +158,8 @@ router.get('publications.comments.edit', '/:id/comments/:commentId/edit', loadPu
   });
 });
 
-router.patch('publications.comments.update', '/:id/comments/:commentId', loadPublication, async (ctx) => {
-  const { publication } = ctx.state;
+router.patch('publications.comments.update', '/:id/comments/:commentId', loadPublication, loadUserList, async (ctx) => {
+  const { publication, userList } = ctx.state;
   const comment = await ctx.orm.comment.findOne({
     where: { id: ctx.params.commentId },
   });
@@ -168,6 +171,7 @@ router.patch('publications.comments.update', '/:id/comments/:commentId', loadPub
   } catch (validationError) {
     await ctx.render('comments/edit', {
       comment,
+      userList,
       errors: validationError.errors,
       submitCommentPath: ctx.router.url('publications.comments.update', { id: publication.id, commentId: ctx.params.commentId }),
     });
