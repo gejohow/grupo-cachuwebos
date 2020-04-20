@@ -10,27 +10,29 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    const reviewsData = [
+    const publicationsData = [
       {
-        description: 'Este wn es piola',
-        puntuation: 3.5,
+        name: 'Test Publication 1',
+        description: 'Esta es una prueba',
+        state: 'new',
+        type: 'Other',
         userId: 1,
-        creatorId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        description: 'Este wn es piola',
-        puntuation: 5,
-        userId: 1,
-        creatorId: 2,
+        name: 'Test Publication 2',
+        description: 'Esta es una prueba',
+        state: 'new',
+        type: 'Other',
+        userId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ];
 
-    return queryInterface.bulkInsert('reviews', reviewsData);
+    return queryInterface.bulkInsert('publications', publicationsData);
   },
 
-  down: (queryInterface) => queryInterface.bulkDelete('reviews', null, {}),
+  down: (queryInterface) => queryInterface.bulkDelete('publications', null, {}),
 };

@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface) => {
+  up: (queryInterface, Sequelize) => {
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
@@ -10,26 +10,23 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    const commentsData = [
+    const negotiationsData = [
       {
-        description: 'sdfafasdfadfa',
+        userOneId: 1,
+        userTwoId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        description: 'obihuweFBLHIUJERWAFGPIJNAREFG',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        description: 'hjkbaffyhebwa',
+        userOneId: 2,
+        userTwoId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ];
 
-    return queryInterface.bulkInsert('comments', commentsData);
+    return queryInterface.bulkInsert('negotiations', negotiationsData);
   },
 
-  down: (queryInterface) => queryInterface.bulkDelete('comments', null, {}),
+  down: (queryInterface) => queryInterface.bulkDelete('negotiations', null, {}),
 };
